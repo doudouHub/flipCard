@@ -1,0 +1,229 @@
+@import "mixins";
+
+/* 翻翻卡样式 */
+.main-roll .edit-md:first-child {
+    display : none;
+}
+
+.card-preList {
+    padding : 44px 30px;
+}
+
+/* 热气球 */
+.card-preList-box {
+    .card-bg {
+        position : relative;
+        z-index  : 1;
+    }
+    .item {
+        float : left;
+        width : 20%;
+        &:nth-child(even) {
+            padding-top : 150px;
+        }
+        &.items-two {
+            padding-top : 0 !important;
+        }
+    }
+    .list {
+        position : absolute;
+    }
+    .in {
+        -webkit-animation-timing-function : ease-out;
+        -webkit-animation-duration        : 350ms;
+        animation-timing-function         : ease-out;
+        animation-duration                : 350ms;
+    }
+    .out {
+        -webkit-animation-timing-function : ease-in;
+        -webkit-animation-duration        : 225ms;
+        animation-timing-function         : ease-in;
+        animation-duration                : 225ms;
+    }
+    .flip {
+        width                       : 150px;
+        height                      : 162px;
+        background   : {
+            size     : contain;
+            repeat   : no-repeat;
+            position : center center;
+        }
+        -webkit-backface-visibility : hidden;
+        -webkit-transform           : translateX(0); /* Needed to work around an iOS 3.1 bug that causes listview thumbs to disappear when -webkit-visibility:hidden is used. */
+        backface-visibility         : hidden;
+        transform                   : translateX(0);
+        cursor                      : pointer;
+        &.out {
+            -webkit-transform          : rotateY(-90deg) scale(.95);
+            -webkit-animation-name     : flipouttoleft;
+            -webkit-animation-duration : 175ms;
+            transform                  : rotateY(-90deg) scale(.95);
+            animation-name             : flipouttoleft;
+            animation-duration         : 175ms;
+        }
+        &.in {
+            -webkit-animation-name     : flipintoright;
+            -webkit-animation-duration : 225ms;
+            animation-name             : flipintoright;
+            animation-duration         : 225ms;
+            &.reverse {
+                -webkit-animation-name : flipintoleft;
+                animation-name         : flipintoleft;
+            }
+        }
+    }
+    .card-content {
+        position         : absolute;
+        left             : 50%;
+        top              : 50%;
+        width            : 124px;
+        height           : 92px;
+        margin-top       : -46px;
+        background-color : #d0ffd2;
+        border           : 2px solid #fff28a;
+        font-size        : 16px;
+        margin-left      : -62px;
+        text-align       : center;
+        overflow         : hidden;
+        z-index          : 10;
+        img {
+            position          : absolute;
+            top               : 50%;
+            left              : 50%;
+            max-height        : 100%;
+            max-width         : 100%;
+            -webkit-transform : translate3D(-50%, -50%, 0);
+            -moz-transform    : translate3D(-50%, -50%, 0);
+            -ms-transform     : translate3D(-50%, -50%, 0);
+            -o-transform      : translate3D(-50%, -50%, 0);
+            transform         : translate3D(-50%, -50%, 0);
+            z-index           : 100;
+            & + .card-text {
+                top               : auto;
+                left              : 0;
+                right             : 0;
+                bottom            : 0;
+                font-size         : 14px;
+                color             : #fff;
+                background-color  : rgba(0, 0, 0, .3);
+                -webkit-transform : translateY(0);
+                -moz-transform    : translateY(0);
+                -ms-transform     : translateY(0);
+                -o-transform      : translateY(0);
+                transform         : translateY(0);
+                z-index           : 100;
+                white-space       : nowrap;
+                text-overflow     : ellipsis;
+                overflow          : hidden;
+                line-height       : 24px;
+            }
+        }
+    }
+    .card-text {
+        position          : absolute;
+        top               : 50%;
+        left              : 0;
+        z-index           : 0;
+        width             : 100%;
+        -webkit-transform : translateY(-50%);
+        -moz-transform    : translateY(-50%);
+        -ms-transform     : translateY(-50%);
+        -o-transform      : translateY(-50%);
+        transform         : translateY(-50%);
+    }
+    &:after {
+        content   : '';
+        display   : block;
+        font-size : 0;
+        float     : none;
+        clear     : both;
+    }
+}
+
+.viewport-flip {
+    width               : 150px;
+    height              : 162px;
+    -webkit-perspective : 1000;
+    perspective         : 1000;
+    margin              : 0 auto;
+    position            : relative;
+}
+
+.flip.out.reverse {
+    -webkit-transform      : rotateY(90deg) scale(.95);
+    -webkit-animation-name : flipouttoright;
+    transform              : rotateY(90deg) scale(.95);
+    animation-name         : flipouttoright;
+}
+
+@-webkit-keyframes flipouttoleft {
+    from {
+        -webkit-transform : rotateY(0);
+    }
+    to {
+        -webkit-transform : rotateY(-90deg) scale(.95);
+    }
+}
+
+@keyframes flipouttoleft {
+    from {
+        transform : rotateY(0);
+    }
+    to {
+        transform : rotateY(-90deg) scale(.95);
+    }
+}
+
+@-webkit-keyframes flipouttoright {
+    from {
+        -webkit-transform : rotateY(0);
+    }
+    to {
+        -webkit-transform : rotateY(90deg) scale(.95);
+    }
+}
+
+@keyframes flipouttoright {
+    from {
+        transform : rotateY(0);
+    }
+    to {
+        transform : rotateY(90deg) scale(.95);
+    }
+}
+
+@-webkit-keyframes flipintoleft {
+    from {
+        -webkit-transform : rotateY(-90deg) scale(.95);
+    }
+    to {
+        -webkit-transform : rotateY(0);
+    }
+}
+
+@keyframes flipintoleft {
+    from {
+        transform : rotateY(-90deg) scale(.95);
+    }
+    to {
+        transform : rotateY(0);
+    }
+}
+
+@-webkit-keyframes flipintoright {
+    from {
+        -webkit-transform : rotateY(90deg) scale(.95);
+    }
+    to {
+        -webkit-transform : rotateY(0);
+    }
+}
+
+@keyframes flipintoright {
+    from {
+        transform : rotateY(90deg) scale(.95);
+    }
+    to {
+        transform : rotateY(0);
+    }
+}

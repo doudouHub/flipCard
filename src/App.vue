@@ -6,6 +6,11 @@
 <style lang="scss">
     @import 'styles/main';
 
+    /*html, body, #app {*/
+    /*width  : 100%;*/
+    /*height : 100%;*/
+    /*}*/
+
     ::-webkit-scrollbar {
         width    : 10px;
         height   : 10px;
@@ -22,5 +27,9 @@
     ::-webkit-scrollbar-track {
         background-color : #f7f7f7;
         border           : 1px solid #efefef;
+    }
+
+    [v-cloak] {
+        display : none;
     }
 </style>

@@ -1,7 +1,14 @@
 @import "normalize";
 @import "animate/animate";
 
+* {
+    -webkit-box-sizing : border-box;
+    -moz-box-sizing    : border-box;
+    box-sizing         : border-box;
+}
+
 .list-none {
+    padding    : 0;
     list-style : none;
 }
 

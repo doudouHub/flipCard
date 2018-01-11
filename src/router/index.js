@@ -11,13 +11,14 @@ export default  new Router({
         },
         {
             path: '/home',
+            redirect: '/edit',
             component: resolve => require(['../components/common/Home.vue'], resolve),
-            children: [
+             children:[
                 {
                     path: '/edit',
-                    component: resolve => require(['../components/page/Edit.vue'], resolve),
+                    component: resolve => require(['../components/page/EditPanel.vue'], resolve)
                 }
             ]
-        },
+        }
     ]
 })
