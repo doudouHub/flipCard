@@ -4,12 +4,13 @@ import router from './router';
 import axios from 'axios';
 import "babel-polyfill";
 import store from 'store/index'
-import {Tabs, TabPane, Button, Input} from 'element-ui'
+import {Tabs, TabPane, Button, Input,Pagination} from 'element-ui'
 
 Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Button);
 Vue.use(Input);
+Vue.use(Pagination);
 
 const vm = new Vue({
     store,

@@ -15,15 +15,27 @@
                 </div>
             </el-tab-pane>
             <el-tab-pane label="图库" name="second">
-                <el-input class="imglibs-search" v-model="imgKeyword" placeholder="输入关键词搜索"></el-input>
+                <el-input class="imglibs-search" v-model="imgKeyword" placeholder="输入关键词搜索"
+                          @keyup.enter.native="getNetImglib"></el-input>
                 <ul class="imglib-list list-none">
-                    <li class="imglib-item" v-for="(item,index) in imglib.list" v-if="index/imglib.count<imglib.page"
+                    <li class="imglib-item" v-for="(item,index) in imglib.list"
+                        v-if="Math.ceil((index+1)/imglib.pageSize)==imglib.page"
                         v-cloak>
                         <div class="imglib-box">
-                            <img :src="item.thumb" alt="">
+                            <img :id="item.id" :src="item.thumb" alt="" draggable="true" @dragstart="drag($event)">
                         </div>
                     </li>
                 </ul>
+                <el-pagination
+                    class="text-center"
+                    small
+                    layout="prev, pager, next"
+                    :total="imglib.list.length"
+                    :page-size="imglib.pageSize"
+                    :current-page="imglib.page"
+                    @current-change="handleCurrentChange"
+                >
+                </el-pagination>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -38,7 +50,7 @@
                 activeName: 'first',
                 imgKeyword: '指鹿为马',
                 imglib: {
-                    count: '10',
+                    pageSize: 12,
                     page: 1,
                     list: []
                 }
@@ -60,7 +72,7 @@
             // tab切换事件
             tabClick() {
                 // 第一次切换图库
-                if (this.activeName === 'second' && !this.imglib.length) {
+                if (this.activeName === 'second' && !this.imglib.list.length) {
                     this.getNetImglib();
                 }
             },
@@ -74,9 +86,19 @@
                     }
                 }).then(function (res) {
                     self.imglib.list = res.data.list;
+                    self.imglib.page = 1;
                 }).catch(function (err) {
                     console.log(err);
                 });
+            },
+            // 切换分页
+            handleCurrentChange(val) {
+                this.imglib.page = val;
+            },
+            // 拖动开始
+            drag(ev) {
+                ev.dataTransfer.setData("Text", ev.target.id);
+                console.log(ev.target.id, '拖动开始')
             }
         }
     }

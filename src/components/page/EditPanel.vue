@@ -11,19 +11,29 @@
                     :style="'width:'+ 100/flipCards.length +'%'" v-for="(item,index) in flipCards"
                     :key="item.id">
                     <div class="viewport-flip" @click="flipCard(index,item.state)">
+                        <!--  卡片正面  -->
                         <div class="list flip"
                              :class="item.posi.class?item.posi.class:'in'"
-                             :style="'background-image : url(./static/img/theme/theme' + theme.activeId + '/element.png);'">
-                            <div class="card-content">
-                                <img :src="item.posi.img" alt="">
+                             :style="'background-image : url(./static/img/theme/theme' + theme.activeId + '/element.png);'"
+                             @drop.prevent="drop($event,index,item.state)"
+                             @dragover.prevent="dragover($event,index)">
+                            <div
+                                class="card-content"
+                                :class="flipCardHoverIndex===index?'hover':''">
+                                <img :src="item.posi.img" ondragstart="return false" alt="">
                                 <div class="card-text">{{item.posi.txt}}</div>
                             </div>
                         </div>
+                        <!--  卡片反面  -->
                         <div class="list flip"
                              :class="item.oppo.class?item.oppo.class:'out'"
-                             :style="'background-image : url(./static/img/theme/theme' + theme.activeId + '/element.png);opacity:'+(flipCardShow?'1':'0')">
-                            <div class="card-content">
-                                <img :src="item.oppo.img" alt="">
+                             :style="'background-image : url(./static/img/theme/theme' + theme.activeId + '/element.png);opacity:'+(flipCardShow?'1':'0')"
+                             @drop.prevent="drop($event,index,item.state)"
+                             @dragover.prevent="dragover($event,index)">
+                            <div
+                                class="card-content"
+                                :class="flipCardHoverIndex===index?'hover':''">
+                                <img :src="item.oppo.img" ondragstart="return false" alt="">
                                 <div class="card-text">{{item.oppo.txt}}</div>
                             </div>
                         </div>
@@ -98,7 +108,8 @@
                         }
                     },
                 ],
-                flipCardShow: false
+                flipCardShow: false,
+                flipCardHoverIndex: -1  // 拖拽悬浮索引
             }
         },
         computed: {
@@ -122,6 +133,32 @@
                     setTimeout(function () {
                         Vue.set(self.flipCards[index].posi, 'class', 'in');
                     }, 225);
+                }
+            },
+            // 拖拽松手 ev事件回调 index 卡片索引 state 当前卡片状态
+            drop(ev, index, state) {
+                state = state ? state : 'posi';
+
+                let data = ev.dataTransfer.getData("Text"),
+                    $target;
+
+                if (ev.target.className.indexOf('card-content') !== -1) {
+                    $target = ev.target;
+                } else if (ev.target.parentNode.className.indexOf('card-content') !== -1) {
+                    $target = ev.target.parentNode;
+                } else {
+                    return;
+                }
+                this.flipCards[index][state].img = document.getElementById(data).getAttribute('src');
+            },
+            // 拖拽经过放置区
+            dragover(ev, index) {
+                const self = this;
+                // 当处于可放置区，为悬停增加样式
+                if (ev.target.className.indexOf('card-content') !== -1 || ev.target.parentNode.className.indexOf('card-content') !== -1) {
+                    this.flipCardHoverIndex = index;
+                } else {
+                    this.flipCardHoverIndex = -1;
                 }
             }
         },
