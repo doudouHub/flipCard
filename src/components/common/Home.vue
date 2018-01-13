@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" :class="preview?'preview':''">
         <!--<v-head></v-head>-->
         <div class="content">
             <v-sidebar></v-sidebar>
@@ -12,10 +12,10 @@
 </template>
 
 <script>
-    //    import vHead from './Header.vue';
     import vFoot from './Footer.vue';
     import vSidebar from './Sidebar.vue';
     import router from '../../router/index';
+    import {mapGetters} from 'vuex';
 
     export default {
         components: {
@@ -23,6 +23,11 @@
         },
         data() {
             return {}
+        },
+        computed: {
+            ...mapGetters([
+                'preview'
+            ])
         },
         mounted() {
             const self = this;
@@ -45,6 +50,14 @@
             width         : 100%;
             height        : 600px;
             padding-right : 234px;
+        }
+        &.preview {
+            .content {
+                padding-right : 0;
+                .sidebar {
+                    display : none;
+                }
+            }
         }
     }
 </style>

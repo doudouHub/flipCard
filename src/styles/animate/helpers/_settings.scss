@@ -50,12 +50,12 @@ $hinge-translate 				: 700px !default;
 $use-all                    :   false !default; // all animations status
 $use-fade               :   true !default; // all fades
 $use-bounce             :   true !default; // all bounces
-$use-rotate             :   $use-all !default; // all rotates
+$use-rotate             :   false !default; // all rotates
 $use-slide              :   true !default; // all slide animations
-$use-flipers            :   $use-all !default; // all flip animations
-$use-light-speed        :   $use-all !default; // all light speed animations
-$use-attention-seekers  :   $use-all !default; // all attention seeker animations
-$use-special            :   $use-all !default; // all special animations
+$use-flipers            :   false !default; // all flip animations
+$use-light-speed        :   false !default; // all light speed animations
+$use-attention-seekers  :   false !default; // all attention seeker animations
+$use-special            :   false !default; // all special animations
 $use-zoom               :   true !default; // all zoom animations
 
 // Fade Enter

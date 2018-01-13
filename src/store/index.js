@@ -27,6 +27,16 @@ const state = {
             }
         ],
         activeId: 1
+    },
+    // 预览模式
+    preview: false,
+    // 当前上传模式
+    currUploadMode:'background',
+    // 当前主题元素
+    currThemeElement: {
+        backgroundThumb: './static/img/theme/theme1/bg-thumb.png',
+        background: './static/img/theme/theme1/bg.png',
+        element: './static/img/theme/theme1/element.png'
     }
 }
 

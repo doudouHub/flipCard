@@ -1,6 +1,12 @@
 @import "normalize";
 @import "animate/animate";
 
+html, body {
+    color       : #333;
+    font-size   : 16px;
+    font-family : 'Microsoft YaHei', Helvetica, Verdana, Arial, sans-serif;
+}
+
 * {
     -webkit-box-sizing : border-box;
     -moz-box-sizing    : border-box;
