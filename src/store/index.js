@@ -34,8 +34,14 @@ const state = {
     },
     // 预览模式
     preview: false,
-    // 当前上传模式
-    currUploadMode:'background',
+    // 当前上传模式 background 背景图片，element 主题元素，cardContent 卡片内容
+    currUploadMode: 'background',
+    // 当前卡片内容 index 索引，state 正反面，content 内容
+    currUploadContent: {
+        index: 0,
+        state: 'posi',
+        content: ''
+    },
     // 当前主题元素
     currThemeElement: {
         backgroundThumb: './static/img/theme/theme1/bg-thumb.png',

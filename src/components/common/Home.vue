@@ -38,19 +38,37 @@
 </script>
 
 <style lang="scss">
+    html, body, #app, .wrapper, .wrapper .content {
+        width  : 100%;
+        height : 100%;
+    }
+
+    html {
+        height : 630px;
+    }
+
     .wrapper {
+        overflow : hidden;
         .content {
-            position      : relative;
-            width         : 100%;
-            height        : 610px;
-            padding-right : 200px;
+            position       : relative;
+            padding-right  : 200px;
+            margin-bottom  : -60px;
+            padding-bottom : 60px;
+            transition     : padding .2s linear, margin .2s linear;
         }
         &.preview {
             .content {
-                padding-right : 0;
-                .sidebar {
-                    display : none;
-                }
+                padding-right  : 0;
+                padding-bottom : 0;
+                margin-bottom  : 0;
+            }
+            .sidebar {
+                -webkit-transform : translate3d(100%, 0, 0);
+                transform         : translate3d(100%, 0, 0);
+            }
+            .footer {
+                -webkit-transform : translate3d(0, 100%, 0);
+                transform         : translate3d(0, 100%, 0);
             }
         }
     }

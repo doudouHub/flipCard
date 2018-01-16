@@ -2,10 +2,12 @@
 @import "config";
 
 .sidebar {
-    @include stretch(0, 0, 0, false);
+    @include stretch(0, 0, 60px, false);
     width            : 200px;
     border-left      : 1px solid #ddd;
     background-color : #f7f8fa;
+    -webkit-transition : transform .2s linear;
+    transition         : transform .2s linear;
 }
 
 /* 图库切换头部 */

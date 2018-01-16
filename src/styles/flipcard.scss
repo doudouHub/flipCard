@@ -18,6 +18,7 @@
                     border      : 1px dashed rgba(247, 248, 250, 0.51);
                     display     : none;
                 }
+                // 删除卡片
                 .card-clear {
                     @include stretch(-5px, false, false, 50%);
                     width            : 20px;
@@ -72,6 +73,25 @@
                         transform         : rotateZ(-45deg);
                         transition        : background-color linear .1s;
                     }
+                    &:hover {
+                        .content-clear {
+                            display : block;
+                        }
+                    }
+                    // 清空卡片内容
+                    .content-clear {
+                        @include stretch(5px, 5px, false, false);
+                        width   : 20px;
+                        height  : 20px;
+                        background   : {
+                            image    : $flip-element;
+                            repeat   : no-repeat;
+                            position : -66px -178px;
+                        }
+                        cursor  : pointer;
+                        z-index : 101;
+                        display : none;
+                    }
                 }
                 &:first-child {
                     .card-content {
@@ -95,7 +115,7 @@
         }
     }
     .card-preList {
-        padding : 44px 30px;
+        padding : 30px 100px;
     }
 }
 
@@ -135,7 +155,7 @@
         width                       : 149px;
         height                      : 184px;
         background   : {
-            size     : contain;
+            size     : 100%;
             repeat   : no-repeat;
             position : center center;
         }
@@ -172,7 +192,7 @@
         margin-top       : -46px;
         background-color : #fff;
         border           : 4px solid #fff28a;
-        border-radius    : 6px;
+        border-radius    : 3px;
         font-size        : 16px;
         margin-left      : -63px;
         text-align       : center;
@@ -200,38 +220,21 @@
             -o-transform      : translate3D(-50%, -50%, 0);
             transform         : translate3D(-50%, -50%, 0);
             z-index           : 100;
-            & + .card-text {
-                top               : auto;
-                left              : 0;
-                right             : 0;
-                bottom            : 0;
-                font-size         : 14px;
-                color             : #fff;
-                background-color  : rgba(0, 0, 0, .3);
-                -webkit-transform : translateY(0);
-                -moz-transform    : translateY(0);
-                -ms-transform     : translateY(0);
-                -o-transform      : translateY(0);
-                transform         : translateY(0);
-                z-index           : 100;
-                white-space       : nowrap;
-                text-overflow     : ellipsis;
-                overflow          : hidden;
-                line-height       : 24px;
-            }
         }
     }
     .card-text {
-        position          : absolute;
-        top               : 50%;
-        left              : 0;
-        z-index           : 0;
-        width             : 100%;
-        -webkit-transform : translateY(-50%);
-        -moz-transform    : translateY(-50%);
-        -ms-transform     : translateY(-50%);
-        -o-transform      : translateY(-50%);
-        transform         : translateY(-50%);
+        height : 86px;
+        textarea {
+            font-size  : 16px;
+            border     : none;
+            text-align : center;
+            max-height : 70px;
+        }
+        .el-textarea.is-disabled .el-textarea__inner {
+            background-color : #fff;
+            color            : #333;
+            cursor           : default;
+        }
     }
     &:after {
         content   : '';
@@ -239,6 +242,36 @@
         font-size : 0;
         float     : none;
         clear     : both;
+    }
+}
+
+/* 卡片编辑按钮 */
+.card-edit-btns {
+    overflow  : hidden;
+    color     : #6c6c6c;
+    font-size : 12px;
+    padding   : 8px 15px 0;
+    dd {
+        margin : 0;
+    }
+    .img-box {
+        width  : 28px;
+        height : 28px;
+        margin : 0 auto;
+        background : {
+            image  : $flip-element;
+            repeat : no-repeat;
+        }
+        &.icon-text {
+            background-position : -3px -173px;
+        }
+        &.icon-image {
+            background-position : -32px -173px;
+        }
+    }
+    .card-edit-item {
+        float : left;
+        width : 50%;
     }
 }
 

@@ -40,9 +40,9 @@ window.executePdu = (data) => {
     switch (data.sortid) {
         // 获得添加图片数据
         case 'addimg':
-            if(!data.data.length) return;
+            if (!data.data.length) return;
             let currThemeElement = store.state.currThemeElement;
-            console.log(currThemeElement);
+            // console.log(currThemeElement);
             switch (store.state.currUploadMode) {
                 case 'background':
                     currThemeElement.backgroundThumb = data.data[0];
@@ -51,11 +51,37 @@ window.executePdu = (data) => {
                 case 'element':
                     currThemeElement.element = data.data[0];
                     break;
+                case 'cardContent':
+                    // 卡片内容
+                    let currUploadContent = store.state.currUploadContent;
+
+                    store.commit('updateUploadContent', {
+                        index: currUploadContent.index,
+                        state: currUploadContent.state,
+                        content: data.data[0]
+                    });
+                    return;
             }
             store.commit('updateCurImgElement', currThemeElement);
             break;
     }
 };
+// 判断元素父节点是否包含class
+Vue.prototype.$parentIndexOf = (node, parentClassName) => {
+    if (node.className === parentClassName) {
+        return node;
+    }
+    for (let i = 0, n = node; n = n.parentNode; i++) {
+        if (n.className.indexOf(parentClassName) !== -1) {
+            // console.log(n.className)
+            return n;
+        }
+        //找不到目标父节点，防止死循环
+        if (n == document.documentElement) {
+            return false;
+        }
+    }
+}
 
 // 缓存读取操作
 Vue.prototype.$localSave = {

@@ -13,6 +13,11 @@ export const mutations = {
     changeUploadMode(state, data) {
         state.currUploadMode = data;
     },
+
+    // 更新上传内容
+    updateUploadContent(state, data) {
+        state.currUploadContent = data;
+    },
     // 更新主题元素
     updateCurImgElement(state, data) {
         state.currThemeElement = data;

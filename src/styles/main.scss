@@ -29,3 +29,16 @@ html, body {
 .pull-right {
     float : right;
 }
+
+.dis-table {
+    display : table;
+    &.ver-mid {
+        .dis-tab-cell{
+            vertical-align : middle;
+        }
+    }
+}
+
+.dis-tab-cell {
+    display : table-cell;
+}

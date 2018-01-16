@@ -2,7 +2,8 @@
     <div class="edit-panel" :class="('theme-'+theme.activeId)+' '+(preview?'':'editMode')"
          :style="'background-image : url('+currThemeElement.background+');'">
         <div class="panel-label"></div>
-        <el-input class="flipcard-title" v-model="flipCards.title" placeholder="点击此处输入标题"></el-input>
+        <el-input class="flipcard-title" :disabled="preview" v-model="flipCards.title"
+                  :placeholder="preview?'':'点击此处输入标题'"></el-input>
 
         <!--展示主体：卡片预览列表-->
         <div class="card-preList" :class="preview?'':'editMode'">
@@ -11,7 +12,7 @@
                     :class="flipCards.list.length===2?'items-two':''"
                     :style="'width:'+ 100/flipCards.list.length +'%'" v-for="(item,index) in flipCards.list"
                     :key="item.id">
-                    <div class="card-clear" @click="deleteThisCard(index)">
+                    <div class="card-clear icon-clear" @click="deleteThisCard(index)">
                         <div class="icon-clear"></div>
                     </div>
                     <div class="viewport-flip">
@@ -26,8 +27,37 @@
                                 @drop.prevent="drop($event,index,'posi')"
                                 @dragover.prevent="dragover($event,index,'posi')"
                                 :class="(flipCardHoverIndex===index && flipCardHoverState==='posi')?'hover':''">
-                                <img :src="item.posi.img" draggable="false" alt="">
-                                <div class="card-text">{{item.posi.txt}}</div>
+                                <div class="content-clear" @click="clearThisConetent(index,'posi')"
+                                     v-if="item.posi.img || item.posi.txt"></div>
+                                <div class="dis-table ver-mid" v-show="item.posi.txt">
+                                    <div class="dis-tab-cell card-text">
+                                        <el-input
+                                            type="textarea"
+                                            autosize
+                                            resize="none"
+                                            placeholder="请输入内容"
+                                            autofocus
+                                            :disabled="preview"
+                                            v-model="item.posi.txt">
+                                        </el-input>
+                                    </div>
+                                </div>
+                                <img :src="item.posi.img" draggable="false" alt="" v-if="item.posi.img">
+                                <!--  卡片编辑区域  -->
+                                <div class="card-edit-btns" v-else-if="!preview">
+                                    <dl class="card-edit-item" @click="editContent('word',index,'posi')">
+                                        <dd>
+                                            <div class="img-box icon-text"></div>
+                                        </dd>
+                                        <dt>文字</dt>
+                                    </dl>
+                                    <dl class="card-edit-item" @click="editContent('image',index,'posi')">
+                                        <dd>
+                                            <div class="img-box icon-image"></div>
+                                        </dd>
+                                        <dt>图片</dt>
+                                    </dl>
+                                </div>
                             </div>
                         </div>
                         <!--  卡片反面  -->
@@ -40,8 +70,37 @@
                                 @drop.prevent="drop($event,index,'oppo')"
                                 @dragover.prevent="dragover($event,index,'oppo')"
                                 :class="(flipCardHoverIndex===index && flipCardHoverState==='oppo')?'hover':''">
-                                <img :src="item.oppo.img" draggable="false" alt="">
-                                <div class="card-text">{{item.oppo.txt}}</div>
+                                <div class="content-clear" @click="clearThisConetent(index,'oppo')"
+                                     v-if="item.oppo.img || item.oppo.txt"></div>
+                                <div class="dis-table ver-mid" v-show="item.oppo.txt">
+                                    <div class="dis-tab-cell card-text">
+                                        <el-input
+                                            type="textarea"
+                                            autosize
+                                            resize="none"
+                                            placeholder="请输入内容"
+                                            autofocus
+                                            :disabled="preview"
+                                            v-model="item.oppo.txt">
+                                        </el-input>
+                                    </div>
+                                </div>
+                                <img :src="item.oppo.img" draggable="false" alt="" v-if="item.oppo.img">
+                                <!--  卡片编辑区域  -->
+                                <div class="card-edit-btns" v-else-if="!preview">
+                                    <dl class="card-edit-item" @click="editContent('word',index,'oppo')">
+                                        <dd>
+                                            <div class="img-box icon-text"></div>
+                                        </dd>
+                                        <dt>文字</dt>
+                                    </dl>
+                                    <dl class="card-edit-item" @click="editContent('image',index,'oppo')">
+                                        <dd>
+                                            <div class="img-box icon-image"></div>
+                                        </dd>
+                                        <dt>图片</dt>
+                                    </dl>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -51,6 +110,12 @@
         <div class="card-addBtn" @click="addNewCard" v-cloak>
             <div class="icon-add"></div>
             添加题目（{{flipCards.list.length}}/5）
+        </div>
+        <div v-show="preview">
+            <div class="card-backBtn" @click="backToEdit">
+                退出预览
+            </div>
+            <div class="card-againBtn" @click="doitAgain"></div>
         </div>
     </div>
 </template>
@@ -98,8 +163,17 @@
             ...mapGetters([
                 'preview',
                 'theme',
-                'currThemeElement'
+                'currThemeElement',
+                'currUploadContent'
             ])
+        },
+        watch: {
+            'currUploadContent'(val) {
+                console.log(val, '卡片内容更新');
+                // 卡片内容更新
+                this.flipCards.list[val.index][val.state].img = val.content;
+                console.log(this.flipCards.list[val.index][val.state], JSON.stringify(val));
+            }
         },
         methods: {
             // 翻转卡片 index 卡片索引，当前状态值
@@ -127,10 +201,8 @@
                 let data = ev.dataTransfer.getData("Text"),
                     $target;
 
-                if (ev.target.className.indexOf('card-content') !== -1) {
-                    $target = ev.target;
-                } else if (ev.target.parentNode.className.indexOf('card-content') !== -1) {
-                    $target = ev.target.parentNode;
+                if (this.$parentIndexOf(ev.target, 'card-content')) {
+                    $target = this.$parentIndexOf(ev.target, 'card-content');
                 } else {
                     return;
                 }
@@ -139,9 +211,8 @@
             // 拖拽经过放置区 index card索引  state 卡片位置
             dragover(ev, index, state) {
                 const self = this;
-                console.log(index, state);
                 // 当处于可放置区，为悬停增加样式
-                if (ev.target.className.indexOf('card-content') !== -1 || ev.target.parentNode.className.indexOf('card-content') !== -1) {
+                if (this.$parentIndexOf(ev.target, 'card-content')) {
                     this.flipCardHoverIndex = index;
                     this.flipCardHoverState = state;
                 } else {
@@ -168,6 +239,41 @@
             deleteThisCard(index) {
                 if (this.flipCards.list.length === 1) return;
                 this.flipCards.list.splice(index, 1);
+            },
+            // 清空卡片内容
+            clearThisConetent(index, state) {
+                this.flipCards.list[index][state] = {
+                    img: '',
+                    txt: ''
+                }
+            },
+            // 编辑卡片内容 type 类型，index 索引，state 卡片位置
+            editContent(type, index, state) {
+                const self = this;
+                switch (type) {
+                    case 'word':
+                        this.flipCards.list[index][state].txt = ' ';
+                        break;
+                    case 'image':
+                        this.$store.commit('changeUploadMode', 'cardContent');
+                        this.$store.commit('updateUploadContent', {
+                            index: index,
+                            state: state,
+                            content: ''
+                        });
+
+                        // 调用C++方法选择本地文件
+                        this.$call_cplus('micro.cotroler', 'selectFile', 'single');
+                        break;
+                }
+            },
+            // 退出编辑，返回预览
+            backToEdit() {
+                this.$store.commit('viewPreview');
+            },
+            // 题型重新开始
+            doitAgain() {
+
             }
         },
         mounted() {
@@ -194,7 +300,7 @@
             size     : cover;
         }
         .card-addBtn {
-            @include stretch(false, false, 20px, 50%);
+            @include stretch(false, false, 80px, 50%);
             background   : {
                 image    : $flip-element;
                 repeat   : no-repeat;
@@ -220,6 +326,32 @@
                     position : -177px -181px;
                 }
             }
+        }
+        .card-backBtn {
+            @include stretch(false, 20px, 15px, false);
+            background   : {
+                image    : $flip-element;
+                repeat   : no-repeat;
+                position : 0 -109px;
+            }
+            color       : #fff;
+            text-align  : center;
+            width       : 126px;
+            height      : 50px;
+            line-height : 39px;
+            cursor      : pointer;
+        }
+        .card-againBtn {
+            @include stretch(50%, 50px, false, false);
+            background   : {
+                image    : $flip-element;
+                repeat   : no-repeat;
+                position : -135px -104px;
+            }
+            margin-top : -28px;
+            width      : 56px;
+            height     : 56px;
+            cursor     : pointer;
         }
         &.editMode {
             .card-addBtn {
@@ -258,6 +390,13 @@
                 border    : {
                     color : #fff;
                 }
+            }
+        }
+        &.is-disabled {
+            .el-input__inner {
+                border           : none;
+                background-color : transparent;
+                color            : #fff;
             }
         }
         ::-webkit-input-placeholder { /* WebKit browsers */
