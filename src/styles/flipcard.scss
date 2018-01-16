@@ -1,12 +1,102 @@
 @import "mixins";
+@import "config";
 
 /* 翻翻卡样式 */
 .main-roll .edit-md:first-child {
     display : none;
 }
 
-.card-preList {
-    padding : 44px 30px;
+.edit-panel {
+    &.editMode {
+        .card-preList-box {
+            > .item {
+                &:before {
+                    content     : '';
+                    @include stretch(-5px, false, -5px, 50%);
+                    width       : 264px;
+                    margin-left : -133px;
+                    border      : 1px dashed rgba(247, 248, 250, 0.51);
+                    display     : none;
+                }
+                .card-clear {
+                    @include stretch(-5px, false, false, 50%);
+                    width            : 20px;
+                    height           : 20px;
+                    background-color : $subColor;
+                    margin-left      : 113px;
+                    z-index          : 101;
+                    display          : none;
+                    .icon-clear {
+                        margin : 5px auto;
+                        width  : 10px;
+                        height : 10px;
+                        background   : {
+                            image    : $flip-element;
+                            repeat   : no-repeat;
+                            position : -100px -182px;
+                        }
+                        cursor : pointer;
+                    }
+                }
+                &:hover {
+                    z-index : 1000;
+                    &:before, .card-clear {
+                        display : block;
+                    }
+                }
+            }
+        }
+
+        .viewport-flip {
+            .list {
+                .card-content {
+                    transition : border-color linear .1s;
+                    &:before {
+                        color     : #996c33;
+                        @include stretch(0, false, false, 3px);
+                        font-size : 12px;
+                        z-index   : 101;
+                    }
+                    &:after {
+                        content           : '';
+                        @include stretch(-25px, false, false, -25px);
+                        color             : #996c33;
+                        width             : 50px;
+                        height            : 50px;
+                        background-color  : #fff185;
+                        z-index           : 100;
+                        -webkit-transform : rotateZ(-45deg);
+                        -moz-transform    : rotateZ(-45deg);
+                        -ms-transform     : rotateZ(-45deg);
+                        -o-transform      : rotateZ(-45deg);
+                        transform         : rotateZ(-45deg);
+                        transition        : background-color linear .1s;
+                    }
+                }
+                &:first-child {
+                    .card-content {
+                        margin-left : -126px;
+                        &:before {
+                            content : '正';
+                        }
+                    }
+                }
+                &:last-child {
+                    background-image : none !important;
+                    left             : 100%;
+                    .card-content {
+                        left : -12px;
+                        &:before {
+                            content : '反';
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .card-preList {
+        padding : 44px 30px;
+    }
 }
 
 /* 热气球 */
@@ -16,13 +106,14 @@
         z-index  : 1;
     }
     .item {
-        float : left;
-        width : 20%;
+        position : relative;
+        float    : left;
+        width    : 20%;
         &:nth-child(even) {
-            padding-top : 150px;
+            top : 150px;
         }
         &.items-two {
-            padding-top : 0 !important;
+            top : 0 !important;
         }
     }
     .list {
@@ -41,8 +132,8 @@
         animation-duration                : 225ms;
     }
     .flip {
-        width                       : 150px;
-        height                      : 162px;
+        width                       : 149px;
+        height                      : 184px;
         background   : {
             size     : contain;
             repeat   : no-repeat;
@@ -76,18 +167,26 @@
         position         : absolute;
         left             : 50%;
         top              : 50%;
-        width            : 124px;
-        height           : 92px;
+        width            : 126px;
+        height           : 90px;
         margin-top       : -46px;
-        background-color : #d0ffd2;
-        border           : 2px solid #fff28a;
+        background-color : #fff;
+        border           : 4px solid #fff28a;
+        border-radius    : 6px;
         font-size        : 16px;
-        margin-left      : -62px;
+        margin-left      : -63px;
         text-align       : center;
         overflow         : hidden;
         z-index          : 10;
+        transition       : margin linear .2s;
         &.hover {
             border-color : #e3512f;
+            &:before {
+                color : #fff !important;
+            }
+            &:after {
+                background-color : #e3512f !important;
+            }
         }
         img {
             position          : absolute;
@@ -144,8 +243,8 @@
 }
 
 .viewport-flip {
-    width               : 150px;
-    height              : 162px;
+    width               : 149px;
+    height              : 184px;
     -webkit-perspective : 1000;
     perspective         : 1000;
     margin              : 0 auto;

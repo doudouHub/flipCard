@@ -5,17 +5,23 @@
             <el-tab-pane label="主题" name="first">
                 <div class="theme-box">
                     <!--  本地主题列表  -->
-                    <ul class="theme-list list-none">
-                        <li class="theme-item" v-for="(item,index) in theme.list">
-                            <div class="thumb-box"
-                                 :class="item.id===theme.activeId?'active':''"
-                                 @click="selectTheme(item.id)" :title="item.name"
-                                 :style="'background-image : url(./static/img/theme/theme' + item.id + '/bg-thumb.png);'"></div>
-                        </li>
-                    </ul>
+                    <div class="theme-list-box">
+                        <ul class="theme-list list-none" :class="themeOpenState?'open':''">
+                            <li class="theme-item" v-for="(item,index) in theme.list">
+                                <div class="thumb-box"
+                                     :class="item.id===theme.activeId?'active':''"
+                                     @click="selectTheme(item.id)" :title="item.name"
+                                     :style="'background-image : url(./static/img/theme/theme' + item.id + '/bg-thumb.png);'"></div>
+                            </li>
+                        </ul>
+                        <!--  伸缩主题列表按钮  -->
+                        <div class="theme-openBtn" @click="themeOpenState=!themeOpenState">
+                            <div class="icon-open"></div>
+                        </div>
+                    </div>
                     <!--  编辑区域  -->
                     <div class="edit-area">
-                        <h5 class="text-center">编辑</h5>
+                        <h5>编辑</h5>
                         <!--  背景编辑  -->
                         <el-row class="edit-area-item">
                             <el-col :span="12">
@@ -23,8 +29,8 @@
                                     <img :src="currThemeElement.backgroundThumb" alt="">
                                 </div>
                             </el-col>
-                            <el-col :span="12">
-                                <div>背景</div>
+                            <el-col :span="12" class="edit-area-right">
+                                <div class="label">背景图片</div>
                                 <el-button size="mini" icon="el-icon-plus" @click="selectLocalImg('background')">本地图片
                                 </el-button>
                             </el-col>
@@ -36,8 +42,8 @@
                                     <img :src="currThemeElement.element" alt="">
                                 </div>
                             </el-col>
-                            <el-col :span="12">
-                                <div>元素</div>
+                            <el-col :span="12" class="edit-area-right">
+                                <div class="label">元素</div>
                                 <el-button size="mini" icon="el-icon-plus" @click="selectLocalImg('element')">本地图片
                                 </el-button>
                             </el-col>
@@ -45,9 +51,11 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="图库" name="second">
+            <el-tab-pane label="图片" name="second" style="padding: 0 15px;">
                 <el-input class="imglibs-search" v-model="imgKeyword" placeholder="输入关键词搜索"
-                          @keyup.enter.native="getNetImglib"></el-input>
+                          @keyup.enter.native="getNetImglib">
+                    <i slot="suffix" class="el-input__icon el-icon-search" @click="getNetImglib"></i>
+                </el-input>
                 <ul class="imglib-list list-none">
                     <li class="imglib-item" v-for="(item,index) in imglib.list"
                         v-if="Math.ceil((index+1)/imglib.pageSize)==imglib.page"
@@ -77,6 +85,7 @@
     export default {
         data() {
             return {
+                themeOpenState: false, // 主题展开状态
                 activeName: 'first',
                 imgKeyword: '指鹿为马',
                 // 网络图库
@@ -152,82 +161,6 @@
 
 <style lang='scss'>
     @import "../../styles/mixins";
-    @import "../../styles/theme";
-
-    .sidebar {
-        @include stretch(0, 0, 0, false);
-        width            : 234px;
-        border-left      : 1px solid #ddd;
-        background-color : #f9f9f9;
-    }
-
-    .imglib-tabs {
-        .el-tabs__nav {
-            width            : 100%;
-            background-color : #fff;
-        }
-        .el-tabs__item {
-            padding    : 0;
-            text-align : center;
-        }
-        .el-tabs__active-bar, .el-tabs__item {
-            width : 50% !important;
-        }
-    }
-
-    .imglibs-search {
-        padding : 0 15px;
-        input {
-            text-align : center;
-        }
-    }
-
-    .imglib-list {
-        overflow : hidden;
-        .imglib-item {
-            float          : left;
-            width          : 50%;
-            padding-bottom : 10px;
-        }
-        .imglib-box {
-            margin           : 0 auto;
-            width            : 86px;
-            height           : 62px;
-            display          : flex;
-            justify-content  : center;
-            align-items      : center;
-            background-color : #f3f3f3;
-            cursor           : pointer;
-            &:hover, &.active {
-                border-color     : #e3512f;
-                background-color : #ffdfdf;
-            }
-            img {
-                display    : block;
-                max-width  : 100%;
-                max-height : 100%;
-            }
-        }
-    }
-
-    /* 编辑区域 */
-    .edit-area-item {
-        margin-bottom : 15px;
-        .img-box {
-            width           : 86px;
-            height          : 62px;
-            display         : -ms-flexbox;
-            display         : flex;
-            -ms-flex-pack   : center;
-            justify-content : center;
-            -ms-flex-align  : center;
-            align-items     : center;
-            img {
-                display    : block;
-                margin     : 0 auto;
-                max-width  : 100%;
-                max-height : 100%;
-            }
-        }
-    }
+    @import "../../styles/config";
+    @import "../../styles/sideBar";
 </style>

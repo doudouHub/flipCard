@@ -19,6 +19,10 @@ export default  new Router({
                     component: resolve => require(['../components/page/EditPanel.vue'], resolve)
                 }
             ]
+        },
+        {
+            path: '/play',
+            component: resolve => require(['../components/page/playBox.vue'], resolve)
         }
     ]
 })

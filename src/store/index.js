@@ -24,7 +24,11 @@ const state = {
             {
                 id: 4,
                 name: '秋天收获'
-            }
+            },
+            {
+                id: 5,
+                name: '光辉岁月'
+            },
         ],
         activeId: 1
     },

@@ -1,0 +1,195 @@
+@import "mixins";
+@import "config";
+
+.sidebar {
+    @include stretch(0, 0, 0, false);
+    width            : 200px;
+    border-left      : 1px solid #ddd;
+    background-color : #f7f8fa;
+}
+
+/* 图库切换头部 */
+.imglib-tabs {
+    .el-tabs__nav {
+        width            : 100%;
+        background-color : #fff;
+    }
+    .el-tabs__item {
+        padding    : 0;
+        text-align : center;
+    }
+    .el-tabs__item {
+        width : 50% !important;
+        &.is-active, &:hover {
+            color : #d24726;
+        }
+    }
+    .el-tabs__header {
+        margin-bottom : 0;
+    }
+    .el-tabs__active-bar {
+        width            : 60px !important;
+        margin-left      : 21px;
+        background-color : $mainColor;
+        &:before {
+            content        : '';
+            @include stretch(false, false, 100%, 50%);
+            display        : block;
+            width          : 0;
+            height         : 0;
+            vertical-align : middle;
+            border-bottom  : 4px dashed $mainColor;
+            border-right   : 4px solid transparent;
+            border-left    : 4px solid transparent;
+            margin-left    : -4px;
+        }
+    }
+    .el-tabs__nav-wrap {
+        border-bottom : 1px solid #ddd;
+    }
+}
+
+.imglibs-search {
+    margin-top    : 20px;
+    border-radius : 3px;
+    .el-icon-search {
+        cursor : pointer;
+    }
+    input {
+        text-align   : center;
+        border-color : #e2e2e2;
+    }
+}
+
+.imglib-list {
+    overflow : hidden;
+    .imglib-item {
+        float          : left;
+        width          : 50%;
+        padding-bottom : 10px;
+    }
+    .imglib-box {
+        margin           : 0 auto;
+        width            : 76px;
+        height           : 56px;
+        display          : flex;
+        justify-content  : center;
+        align-items      : center;
+        background-color : #f3f3f3;
+        cursor           : pointer;
+        border           : 2px solid transparent;
+        &:hover, &.active {
+            border-color     : #e3512f;
+            background-color : #ffdfdf;
+        }
+        img {
+            display    : block;
+            max-width  : 100%;
+            max-height : 100%;
+        }
+    }
+}
+
+/* 编辑区域 */
+.edit-area {
+    padding : 0 15px;
+}
+
+.edit-area-item {
+    margin-bottom : 15px;
+    .img-box {
+        width           : 80px;
+        height          : 60px;
+        display         : -ms-flexbox;
+        display         : flex;
+        -ms-flex-pack   : center;
+        justify-content : center;
+        -ms-flex-align  : center;
+        align-items     : center;
+        img {
+            display    : block;
+            margin     : 0 auto;
+            max-width  : 100%;
+            max-height : 100%;
+        }
+    }
+    .edit-area-right {
+        font-size    : 12px;
+        padding-left : 5px;
+        .label {
+            color         : #6c6c6c;
+            margin-bottom : 10px;
+        }
+        .el-button {
+            padding : 0;
+            width   : 82px;
+            height  : 26px;
+        }
+    }
+}
+
+.theme-list {
+    overflow      : hidden;
+    padding       : 0 7px 5px;
+    border-bottom : 1px solid #ddd;
+    max-height    : 143px;
+    transition    : max-height linear .2s;
+    &.open {
+        max-height : 340px;
+        + .theme-openBtn {
+            .icon-open {
+                -webkit-transform : rotateZ(180deg);
+                -moz-transform    : rotateZ(180deg);
+                -ms-transform     : rotateZ(180deg);
+                -o-transform      : rotateZ(180deg);
+                transform         : rotateZ(180deg);
+            }
+        }
+    }
+    .theme-item {
+        width   : 50%;
+        float   : left;
+        padding : 0 7px 15px;
+    }
+    .thumb-box {
+        width  : 100%;
+        height : 56px;
+        margin : 0 auto;
+        border : 2px solid transparent;
+        cursor : pointer;
+        background   : {
+            position : 50% 50%;
+            size     : cover;
+        }
+        &:hover, &.active {
+            border-color     : #d24726;
+            background-color : #ffdfdf;
+        }
+    }
+}
+
+.theme-list-box {
+    position      : relative;
+    margin-bottom : 30px;
+    .theme-openBtn {
+        @include stretch(100%, false, 0, 50%);
+        width            : 80px;
+        height           : 12px;
+        margin           : -1px 0 0 -40px;
+        background-color : #f7f8fa;
+        border           : 1px solid #ddd;
+        border-top       : none;
+        border-radius    : 3px;
+        cursor           : pointer;
+        .icon-open {
+            width  : 15px;
+            height : 12px;
+            background   : {
+                image    : $flip-element;
+                repeat   : no-repeat;
+                position : -125px -182px;
+            }
+            margin : 0 auto;
+        }
+    }
+}
