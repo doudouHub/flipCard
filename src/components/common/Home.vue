@@ -19,7 +19,7 @@
 
     export default {
         components: {
-            vFoot, vSidebar
+            vSidebar, vFoot
         },
         data() {
             return {}
@@ -31,22 +31,17 @@
         },
         mounted() {
             const self = this;
-
+            // 获取题目信息
+            this.$call_cplus('micro.cotroler', 'getdata', '');
+            if (this.$getQueryString('isplay')) {
+                this.$router.push('/play');
+            }
         },
         methods: {}
     }
 </script>
 
 <style lang="scss">
-    html, body, #app, .wrapper, .wrapper .content {
-        width  : 100%;
-        height : 100%;
-    }
-
-    html {
-        height : 630px;
-    }
-
     .wrapper {
         overflow : hidden;
         .content {

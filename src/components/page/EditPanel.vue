@@ -130,33 +130,6 @@
                 flipCardShow: false,
                 flipCardHoverState: '',
                 flipCardHoverIndex: -1,  // 拖拽悬浮索引
-                flipCards: {
-                    title: '',
-                    list: [
-                        {
-                            id: 1,
-                            posi: {
-                                img: '',
-                                txt: ''
-                            },
-                            oppo: {
-                                img: '',
-                                txt: ''
-                            }
-                        },
-                        {
-                            id: 2,
-                            posi: {
-                                img: '',
-                                txt: ''
-                            },
-                            oppo: {
-                                img: '',
-                                txt: ''
-                            }
-                        },
-                    ]
-                }
             }
         },
         computed: {
@@ -164,36 +137,24 @@
                 'preview',
                 'theme',
                 'currThemeElement',
-                'currUploadContent'
+                'flipCards'
             ])
         },
-        watch: {
-            'currUploadContent'(val) {
-                console.log(val, '卡片内容更新');
-                // 卡片内容更新
-                this.flipCards.list[val.index][val.state].img = val.content;
-                console.log(this.flipCards.list[val.index][val.state], JSON.stringify(val));
-            }
+        mounted() {
+            const self = this;
+            // 演示显示反面
+            setTimeout(() => {
+                self.flipCardShow = true;
+            }, 225)
         },
         methods: {
             // 翻转卡片 index 卡片索引，当前状态值
             flipCard(index, state) {
-                const self = this;
-                // 如果当前非预览模式则不响应
-                if (!this.preview) return;
-                if (state === 'posi') {
-                    Vue.set(this.flipCards.list[index].posi, 'class', 'out');
-                    setTimeout(function () {
-                        Vue.set(self.flipCards.list[index], 'state', 'oppo');
-                        Vue.set(self.flipCards.list[index].oppo, 'class', 'in');
-                    }, 225);
-                } else {
-                    Vue.set(this.flipCards.list[index].oppo, 'class', 'out');
-                    setTimeout(function () {
-                        Vue.set(self.flipCards.list[index], 'state', 'posi');
-                        Vue.set(self.flipCards.list[index].posi, 'class', 'in');
-                    }, 225);
-                }
+                this.$store.commit('updateFlipCards', {
+                    type: 'flip',
+                    index: index,
+                    state: state
+                });
             },
             // 拖拽松手 ev事件回调 index 卡片索引 state 当前卡片状态
             drop(ev, index, state) {
@@ -206,7 +167,13 @@
                 } else {
                     return;
                 }
-                this.flipCards.list[index][state].img = document.getElementById(data).getAttribute('src');
+
+                this.$store.commit('updateFlipCards', {
+                    type: 'drop',
+                    index: index,
+                    state: state,
+                    data: data
+                });
             },
             // 拖拽经过放置区 index card索引  state 卡片位置
             dragover(ev, index, state) {
@@ -222,37 +189,26 @@
             // 添加新卡片
             addNewCard() {
                 const self = this;
-                if (this.flipCards.list.length === 5) return;
-                this.flipCards.list.push({
-                    id: (new Date()).valueOf(),
-                    posi: {
-                        img: '',
-                        txt: ''
-                    },
-                    oppo: {
-                        img: '',
-                        txt: ''
-                    }
-                })
+                this.$store.commit('updateFlipCards', {type: 'add'});
             },
             // 删除这张卡片
             deleteThisCard(index) {
-                if (this.flipCards.list.length === 1) return;
-                this.flipCards.list.splice(index, 1);
+                this.$store.commit('updateFlipCards', {type: 'delete', index: index});
             },
             // 清空卡片内容
             clearThisConetent(index, state) {
-                this.flipCards.list[index][state] = {
-                    img: '',
-                    txt: ''
-                }
+                this.$store.commit('updateFlipCards', {type: 'clear', index: index, state: state});
             },
             // 编辑卡片内容 type 类型，index 索引，state 卡片位置
             editContent(type, index, state) {
                 const self = this;
                 switch (type) {
                     case 'word':
-                        this.flipCards.list[index][state].txt = ' ';
+                        this.$store.commit('updateFlipCards', {
+                            type: 'putword',
+                            index: index,
+                            state: state
+                        });
                         break;
                     case 'image':
                         this.$store.commit('changeUploadMode', 'cardContent');
@@ -269,139 +225,20 @@
             },
             // 退出编辑，返回预览
             backToEdit() {
+                this.$store.commit('updateFlipCards', {type: 'flipAll'});
                 this.$store.commit('viewPreview');
             },
             // 题型重新开始
             doitAgain() {
-
-            }
-        },
-        mounted() {
-            const self = this;
-            // 演示显示反面
-            setTimeout(() => {
-                self.flipCardShow = true;
-            }, 225)
+                this.$store.commit('updateFlipCards', {type: 'flipAll'});
+            },
         }
     }
 </script>
 
 <style lang="scss">
-    @import "../../styles/mixins";
-    @import "../../styles/config";
     @import "../../styles/theme";
+    @import "../../styles/editPanel";
     @import "../../styles/flipcard";
-
-    .edit-panel {
-        height   : 100%;
-        overflow : hidden;
-        background   : {
-            position : top center;
-            size     : cover;
-        }
-        .card-addBtn {
-            @include stretch(false, false, 80px, 50%);
-            background   : {
-                image    : $flip-element;
-                repeat   : no-repeat;
-                position : 0 -49px;
-            }
-            color       : #fff;
-            text-align  : center;
-            width       : 202px;
-            height      : 50px;
-            line-height : 39px;
-            margin-left : -201px;
-            cursor      : pointer;
-            display     : none;
-            .icon-add {
-                display        : inline-block;
-                vertical-align : middle;
-                width          : 15px;
-                height         : 15px;
-                margin-right   : 5px;
-                background   : {
-                    image    : $flip-element;
-                    repeat   : no-repeat;
-                    position : -177px -181px;
-                }
-            }
-        }
-        .card-backBtn {
-            @include stretch(false, 20px, 15px, false);
-            background   : {
-                image    : $flip-element;
-                repeat   : no-repeat;
-                position : 0 -109px;
-            }
-            color       : #fff;
-            text-align  : center;
-            width       : 126px;
-            height      : 50px;
-            line-height : 39px;
-            cursor      : pointer;
-        }
-        .card-againBtn {
-            @include stretch(50%, 50px, false, false);
-            background   : {
-                image    : $flip-element;
-                repeat   : no-repeat;
-                position : -135px -104px;
-            }
-            margin-top : -28px;
-            width      : 56px;
-            height     : 56px;
-            cursor     : pointer;
-        }
-        &.editMode {
-            .card-addBtn {
-                display : block;
-            }
-        }
-        .panel-label {
-            @include stretch(15px, false, false, 0);
-            width   : 120px;
-            height  : 40px;
-            background : {
-                image  : $flip-element;
-                repeat : no-repeat;
-            }
-            z-index : 100;
-        }
-    }
-
-    .flipcard-title {
-        input {
-            display          : block;
-            text-align       : center;
-            font-size        : 20px;
-            border    : {
-                color : #94c9fe;
-                style : dashed;
-                width : 1px;
-            }
-            width            : 286px;
-            line-height      : 44px;
-            margin           : 40px auto;
-            border-radius    : 0;
-            background-color : transparent;
-            color            : #fff;
-            &:hover, &:focus {
-                border    : {
-                    color : #fff;
-                }
-            }
-        }
-        &.is-disabled {
-            .el-input__inner {
-                border           : none;
-                background-color : transparent;
-                color            : #fff;
-            }
-        }
-        ::-webkit-input-placeholder { /* WebKit browsers */
-            color : #94c9fe;
-        }
-    }
 </style>
 

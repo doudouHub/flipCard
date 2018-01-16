@@ -18,7 +18,9 @@
         },
         computed: {
             ...mapGetters([
-                'preview'
+                'preview',
+                'theme',
+                'flipCards'
             ])
         },
         methods: {
@@ -31,8 +33,18 @@
                 this.$call_cplus('micro.cotroler', 'closewindow', '');
             },
             // 插入ppt
-            insertPPT(){
-
+            insertPPT() {
+                let data = {
+                    type: 'flipcard',
+                    themeId: this.theme.activeId,
+                    sortid: 'ra.savework',
+                    workid: this.$uuid(),
+                    workname: this.flipCards.title,
+                    flipCards: this.flipCards,
+                };
+                console.log(data, '插入的题目信息');
+                // 向C++发行题目信息
+                this.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
             }
         }
     }

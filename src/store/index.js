@@ -32,6 +32,37 @@ const state = {
         ],
         activeId: 1
     },
+    flipCards: {
+        title: '',
+        list: [
+            {
+                id: 1,
+                posi: {
+                    img: '',
+                    txt: '',
+                    class:'in'
+                },
+                oppo: {
+                    img: '',
+                    txt: '',
+                    class:'out'
+                }
+            },
+            {
+                id: 2,
+                posi: {
+                    img: '',
+                    txt: '',
+                    class:'in'
+                },
+                oppo: {
+                    img: '',
+                    txt: '',
+                    class:'out'
+                }
+            },
+        ]
+    },
     // 预览模式
     preview: false,
     // 当前上传模式 background 背景图片，element 主题元素，cardContent 卡片内容
@@ -44,8 +75,8 @@ const state = {
     },
     // 当前主题元素
     currThemeElement: {
-        backgroundThumb: './static/img/theme/theme1/bg-thumb.png',
-        background: './static/img/theme/theme1/bg.png',
+        backgroundThumb: './static/img/theme/theme1/bg-thumb.jpg',
+        background: './static/img/theme/theme1/bg-preview.jpg',
         element: './static/img/theme/theme1/element.png'
     }
 }

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import axios from 'axios';
+import uuid from 'uuid/v1';
 import "babel-polyfill";
 import store from 'store/index'
 import {Tabs, TabPane, Button, Input, Pagination, Row, Col} from 'element-ui'
@@ -21,21 +22,20 @@ const vm = new Vue({
 }).$mount('#app');
 
 Vue.prototype.$axios = axios;
+Vue.prototype.$uuid = uuid;
 
 // 调用C++方法
 Vue.prototype.$call_cplus = (cmd, tag, msg) => {
+    console.log("call_cplus, cmd: " + cmd + ", msg:" + msg);
     try {
-        if (cef != undefined) {
-            console.log("call_cplus, cmd: " + cmd + ", msg:" + msg);
-            cef.message.sendMessage(cmd, [msg, tag]);
-        }
+        cef.message.sendMessage(cmd, [msg, tag]);
     } catch (e) {
     }
 }
 
 // C++调用js的方法
 window.executePdu = (data) => {
-    console.log(data);
+    console.log(data, '获得返回数据');
     data = JSON.parse(data);
     switch (data.sortid) {
         // 获得添加图片数据
@@ -55,17 +55,41 @@ window.executePdu = (data) => {
                     // 卡片内容
                     let currUploadContent = store.state.currUploadContent;
 
-                    store.commit('updateUploadContent', {
+                    store.commit('updateFlipCards', {
+                        type: 'putImg',
                         index: currUploadContent.index,
                         state: currUploadContent.state,
-                        content: data.data[0]
+                        data: data.data[0]
                     });
                     return;
             }
             store.commit('updateCurImgElement', currThemeElement);
             break;
+        case 'sendjsdata':
+            // 获得存储的信息
+            if (data.data.flipCards) {
+                store.commit('updateFlipCards', {
+                    type: 'update',
+                    data: data.data.flipCards
+                });
+            }
+            break;
     }
 };
+
+// 获取连接参数
+Vue.prototype.$getQueryString = (name) => {
+    try {
+        let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        let r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return decodeURI(r[2]);
+        return null;
+    } catch (e) {
+        log_error(" getQueryString function error=" + e.message);
+    }
+}
+
 // 判断元素父节点是否包含class
 Vue.prototype.$parentIndexOf = (node, parentClassName) => {
     if (node.className === parentClassName) {

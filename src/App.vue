@@ -6,9 +6,13 @@
 <style lang="scss">
     @import 'styles/main';
 
-    /*html, body, #app {*/
-    /*width  : 100%;*/
-    /*height : 100%;*/
+    html, body, #app, .wrapper, .wrapper .content {
+        width  : 100%;
+        height : 100%;
+    }
+
+    /*html {*/
+        /*height : 630px;*/
     /*}*/
 
     ::-webkit-scrollbar {

@@ -11,7 +11,7 @@
                                 <div class="thumb-box"
                                      :class="item.id===theme.activeId?'active':''"
                                      @click="selectTheme(item.id)" :title="item.name"
-                                     :style="'background-image : url(./static/img/theme/theme' + item.id + '/bg-thumb.png);'"></div>
+                                     :style="'background-image : url(./static/img/theme/theme' + item.id + '/bg-thumb.jpg);'"></div>
                             </li>
                         </ul>
                         <!--  伸缩主题列表按钮  -->
@@ -109,8 +109,8 @@
             // 切换主题
             selectTheme(id) {
                 let currThemeElement = {
-                    backgroundThumb: './static/img/theme/theme' + id + '/bg-thumb.png',
-                    background: './static/img/theme/theme' + id + '/bg.png',
+                    backgroundThumb: './static/img/theme/theme' + id + '/bg-thumb.jpg',
+                    background: './static/img/theme/theme' + id + '/bg-preview.jpg',
                     element: './static/img/theme/theme' + id + '/element.png'
                 }
                 this.$store.commit('changeTheme', id);
@@ -160,7 +160,5 @@
 </script>
 
 <style lang='scss'>
-    @import "../../styles/mixins";
-    @import "../../styles/config";
     @import "../../styles/sideBar";
 </style>
