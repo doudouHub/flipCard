@@ -235,10 +235,10 @@
         }
     }
 </script>
-
-<style lang="scss">
+<style lang="scss" scoped>
     @import "../../styles/themeEdit";
+</style>
+<style lang="scss">
     @import "../../styles/editPanel";
     @import "../../styles/flipcard";
 </style>
-

@@ -90,9 +90,10 @@
         }
     }
 </script>
-
-<style lang="scss">
+<style lang="scss" scoped>
     @import "../../styles/themePlay";
+</style>
+<style lang="scss">
     @import "../../styles/editPanel";
     @import "../../styles/flipcard";
 </style>
