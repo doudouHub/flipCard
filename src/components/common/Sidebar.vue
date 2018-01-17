@@ -53,27 +53,36 @@
             </el-tab-pane>
             <el-tab-pane label="图片" name="second" style="padding: 0 15px;">
                 <el-input class="imglibs-search" v-model="imgKeyword" placeholder="输入关键词搜索"
-                          @keyup.enter.native="getNetImglib">
+                          @keyup.enter.native="getNetImglib" clearable>
                     <i slot="suffix" class="el-input__icon el-icon-search" @click="getNetImglib"></i>
                 </el-input>
                 <ul class="imglib-list list-none">
-                    <li class="imglib-item" v-for="(item,index) in imglib.list"
-                        v-if="Math.ceil((index+1)/imglib.pageSize)==imglib.page"
+                    <li class="imglib-item"
+                        v-for="(item,index) in imglib.list"
+                        :key="item.id"
+                        v-if="Math.ceil((index+1)/imglib.pageSize)===imglib.page"
                         v-cloak>
-                        <div class="imglib-box">
-                            <img :id="item.id" :src="item.thumb" alt="" draggable="true" @dragstart="drag($event)">
+                        <div class="imglib-box"
+                             :class="item.id===imglib.activeId?'active':''"
+                             @click="viewImginBox(item.thumb,item.id)">
+                            <img :id="item.id" :src="item.thumb" alt="" draggable="true"
+                                 @dragstart="drag($event)">
                         </div>
                     </li>
                 </ul>
-                <el-pagination
-                    class="text-center"
-                    small
-                    layout="prev, pager, next"
-                    :total="imglib.list.length"
-                    :page-size="imglib.pageSize"
-                    :current-page="imglib.page"
-                    @current-change="handleCurrentChange">
-                </el-pagination>
+                <div class="img-pagination text-center" v-show="imglib.pageTotal">
+                    <i class="el-icon-caret-left page-btn" :class="imglib.page===1?'disabled':''"
+                       @click="handleCurrentChange('prev')"></i>
+                    <el-input
+                        :placeholder="inputFocus?'':placeholder"
+                        @focus="inputFocus=true"
+                        @blur="inputFocus=false"
+                        @keyup.enter.native="turnPage"
+                        :value="inputvalue"
+                    ></el-input>
+                    <i class="el-icon-caret-right page-btn" :class="imglib.page===imglib.pageTotal?'disabled':''"
+                       @click="handleCurrentChange('next')"></i>
+                </div>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -90,17 +99,26 @@
                 imgKeyword: '指鹿为马',
                 // 网络图库
                 imglib: {
+                    activeId: 0,
                     pageSize: 12,
                     page: 1,
+                    pageTotal: 0,
                     list: []
                 },
+                inputFocus: false
             }
         },
         computed: {
             ...mapGetters([
                 'theme',
                 'currThemeElement'
-            ])
+            ]),
+            placeholder() {
+                return this.imglib.page + '/' + this.imglib.pageTotal;
+            },
+            inputvalue() {
+                return this.inputFocus ? this.imglib.page : '';
+            }
         },
         mounted() {
 
@@ -136,29 +154,123 @@
                 }).then(function (res) {
                     self.imglib.list = res.data.list;
                     self.imglib.page = 1;
+                    self.imglib.pageTotal = Math.round(res.data.list.length / self.imglib.pageSize);
                 }).catch(function (err) {
                     console.log(err);
                 });
             },
             // 切换分页
-            handleCurrentChange(val) {
-                this.imglib.page = val;
+            handleCurrentChange(type) {
+                switch (type) {
+                    case 'prev':
+                        if (this.imglib.page === 1) return;
+                        this.imglib.page--;
+                        break;
+                    case 'next':
+                        if (this.imglib.page === this.imglib.pageTotal) return;
+                        this.imglib.page++;
+                        break;
+                }
             },
             // 拖动开始
             drag(ev) {
                 ev.dataTransfer.setData("Text", ev.target.id);
-                console.log(ev.target.id, '拖动开始')
+                // console.log(ev.target.id, '拖动开始')
+                this.$store.commit('updateImgView', {
+                    state: false,
+                    src: ''
+                });
             },
             // 选择本地图片
             selectLocalImg(type) {
                 this.$store.commit('changeUploadMode', type);
                 // 调用C++方法选择本地文件
                 this.$call_cplus('micro.cotroler', 'selectFile', 'single');
+            },
+            // 在弹窗中查看大图
+            viewImginBox(src, id) {
+                this.$store.commit('updateImgView', {
+                    state: true,
+                    src: src
+                });
+                this.imglib.activeId = id;
+            },
+            // 分页跳转
+            turnPage(e) {
+                let _val = e.target.value;
+                if (!_val) return;
+                _val = (_val < 1) ? 1 : (_val > this.imglib.pageTotal ? this.imglib.pageTotal : _val);
+                this.imglib.page = Number(_val);
             }
         }
     }
 </script>
 
 <style lang='scss'>
+    @import "../../styles/mixins";
+    @import "../../styles/config";
+    /* 图库切换头部 */
+    .imglib-tabs {
+        &[aria-index="first"] {
+            .el-tabs__active-bar {
+                margin-left : 21px;
+            }
+        }
+        .el-tabs__nav {
+            width            : 100%;
+            background-color : #fff;
+        }
+        .el-tabs__item {
+            padding    : 0;
+            text-align : center;
+        }
+        .el-tabs__item {
+            width : 50% !important;
+            &.is-active, &:hover {
+                color : #d24726;
+            }
+        }
+        .el-tabs__header {
+            margin-bottom : 0;
+        }
+        .el-tabs__active-bar {
+            width            : 60px !important;
+            background-color : $mainColor;
+            &:before {
+                content        : '';
+                @include stretch(false, false, 100%, 50%);
+                display        : block;
+                width          : 0;
+                height         : 0;
+                vertical-align : middle;
+                border-bottom  : 4px dashed $mainColor;
+                border-right   : 4px solid transparent;
+                border-left    : 4px solid transparent;
+                margin-left    : -4px;
+            }
+        }
+        .el-tabs__nav-wrap {
+            border-bottom : 1px solid #ddd;
+        }
+    }
+
+    .img-pagination {
+        .el-input {
+            display : inline-block;
+            width   : 65px;
+            ::-webkit-input-placeholder {
+                color : #333;
+            }
+        }
+        .el-input__inner {
+            height        : 20px;
+            font-size     : 12px;
+            border-radius : 2px;
+            text-align    : center;
+        }
+    }
+</style>
+<style lang='scss' scoped>
     @import "../../styles/sideBar";
 </style>
+

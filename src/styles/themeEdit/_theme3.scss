@@ -22,4 +22,9 @@
     .card-content {
         left : 87px;
     }
+    .card-preList-box {
+        .item:nth-child(even) {
+            top : 180px;
+        }
+    }
 }

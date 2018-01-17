@@ -23,4 +23,9 @@
     .card-content {
         left : 85px;
     }
+    .card-preList-box {
+        .item:nth-child(even) {
+            top : 180px;
+        }
+    }
 }

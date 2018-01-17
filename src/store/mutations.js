@@ -96,5 +96,13 @@ export const mutations = {
                 state.flipCards.list[data.index][data.state].img = document.getElementById(data.data).getAttribute('src');
                 break;
         }
+    },
+    // 更新放大预览图片
+    updateImgView(state, data) {
+        state.imgView.state = data.state;
+        state.imgView.src = '';
+        setTimeout(function () {
+            state.imgView.src = data.src;
+        }, 100)
     }
 };

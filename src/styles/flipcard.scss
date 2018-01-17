@@ -132,9 +132,6 @@
         float    : left;
         width    : 20%;
         height   : 184px;
-        &:nth-child(even) {
-            top : 150px;
-        }
         &.items-two {
             top : 0 !important;
         }
@@ -273,6 +270,15 @@
     .card-edit-item {
         float : left;
         width : 50%;
+        &:hover{
+            color: #d24726;
+            &.icon-text {
+                background-position : -3px -173px;
+            }
+            &.icon-image {
+                background-position : -32px -173px;
+            }
+        }
     }
 }
 

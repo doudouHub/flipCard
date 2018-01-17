@@ -9,6 +9,37 @@
         position : bottom center;
         size     : cover;
     }
+    .imgView-dialog {
+        &.el-dialog__wrapper, + .v-modal {
+            position : absolute;
+        }
+        .el-dialog {
+            background-color : transparent;
+            pointer-events   : none;
+        }
+        .el-dialog__body {
+            height          : 100%;
+            margin-top      : -40px;
+            display         : -ms-flexbox;
+            display         : flex;
+            -ms-flex-pack   : center;
+            justify-content : center;
+            -ms-flex-align  : center;
+            align-items     : center;
+            img {
+                max-width  : 100%;
+                max-height : 100%;
+            }
+        }
+        .el-dialog__close {
+            color     : #fff;
+            font-size : 34px;
+        }
+        //.el-dialog__header {
+        //    display : none;
+        //}
+    }
+
     .card-addBtn {
         @include stretch(false, false, 20px, 50%);
         background   : {

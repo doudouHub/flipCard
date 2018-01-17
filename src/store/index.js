@@ -74,6 +74,11 @@ const state = {
         index: 0,
         state: 'posi',
         content: ''
+    },
+    // 图片放大查看
+    imgView: {
+        state: false,
+        src: ''
     }
 }
 

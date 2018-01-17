@@ -108,7 +108,7 @@
         }
         .card-preList-box {
             .item:nth-child(even) {
-                top : 340px;
+                top : 360px;
             }
             .card-content-text {
                 width     : 100%;

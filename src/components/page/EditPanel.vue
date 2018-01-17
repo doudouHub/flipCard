@@ -42,7 +42,8 @@
                                         </el-input>
                                     </div>
                                 </div>
-                                <img :src="item.posi.img" draggable="false" alt="" v-if="item.posi.img">
+                                <img :src="item.posi.img" draggable="false" alt="" v-if="item.posi.img"
+                                     @click="viewImginBox(item.posi.img)">
                                 <!--  卡片编辑区域  -->
                                 <div class="card-edit-btns" v-else-if="!preview">
                                     <dl class="card-edit-item" @click="editContent('word',index,'posi')">
@@ -85,7 +86,8 @@
                                         </el-input>
                                     </div>
                                 </div>
-                                <img :src="item.oppo.img" draggable="false" alt="" v-if="item.oppo.img">
+                                <img :src="item.oppo.img" draggable="false" alt="" v-if="item.oppo.img"
+                                     @click="viewImginBox(item.oppo.img)">
                                 <!--  卡片编辑区域  -->
                                 <div class="card-edit-btns" v-else-if="!preview">
                                     <dl class="card-edit-item" @click="editContent('word',index,'oppo')">
@@ -117,6 +119,18 @@
             </div>
             <div class="card-againBtn" @click="doitAgain"></div>
         </div>
+
+        <!--  图片预览弹窗  -->
+        <el-dialog
+            class="imgView-dialog"
+            title=""
+            :visible="imgView.state"
+            :fullscreen="true"
+            :modal-append-to-body="false"
+            :before-close="closeDialog"
+            center>
+            <img :src="imgView.src" alt="">
+        </el-dialog>
     </div>
 </template>
 
@@ -137,7 +151,8 @@
                 'preview',
                 'theme',
                 'currThemeElement',
-                'flipCards'
+                'flipCards',
+                'imgView'
             ])
         },
         mounted() {
@@ -232,6 +247,21 @@
             doitAgain() {
                 this.$store.commit('updateFlipCards', {type: 'flipAll'});
             },
+            // 关闭弹窗
+            closeDialog() {
+                this.$store.commit('updateImgView', {
+                    state: false,
+                    src: ''
+                });
+            },
+            // 在弹窗中查看大图
+            viewImginBox(src) {
+                if (this.preview) return;
+                this.$store.commit('updateImgView', {
+                    state: true,
+                    src: src
+                });
+            }
         }
     }
 </script>
