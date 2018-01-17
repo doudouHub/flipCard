@@ -2,7 +2,7 @@
     <div class="edit-panel" :class="('theme-'+theme.activeId)"
          :style="'background-image : url('+currThemeElement.background+');'">
         <div class="panel-label"></div>
-        <el-input class="flipcard-title" disabled="disabled" v-model="flipCards.title"></el-input>
+        <div class="flipcard-title text-center" v-text="flipCards.title"></div>
 
         <!--展示主体：卡片预览列表-->
         <div class="card-preList">
@@ -19,6 +19,9 @@
                              @click="flipCard(index,'posi')">
                             <div class="card-content">
                                 <img :src="item.posi.img" draggable="false" alt="" v-if="item.posi.img">
+                                <div class="dis-table ver-mid card-content-text">
+                                    <div class="dis-tab-cell" v-text="item.posi.txt"></div>
+                                </div>
                             </div>
                         </div>
                         <!--  卡片反面  -->
@@ -28,15 +31,15 @@
                              @click="flipCard(index,'oppo')">
                             <div class="card-content">
                                 <img :src="item.oppo.img" draggable="false" alt="" v-if="item.oppo.img">
+                                <div class="dis-table ver-mid card-content-text">
+                                    <div class="dis-tab-cell" v-text="item.oppo.txt"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
-        <!--<div class="card-backBtn" @click="backToEdit">-->
-        <!--退出预览-->
-        <!--</div>-->
         <div class="card-againBtn" @click="doitAgain"></div>
     </div>
 </template>
@@ -83,13 +86,41 @@
             // 演示显示反面
             setTimeout(() => {
                 self.flipCardShow = true;
-            }, 225)
+            }, 500)
         }
     }
 </script>
 
 <style lang="scss">
-    @import "../../styles/theme";
+    @import "../../styles/themePlay";
     @import "../../styles/editPanel";
     @import "../../styles/flipcard";
+</style>
+<style lang="scss" scoped>
+    .edit-panel {
+        .card-preList {
+            padding : 30px 348px;
+        }
+        .card-content {
+            width  : 282px;
+            height : 204px;
+        }
+        .card-preList-box {
+            .item:nth-child(even) {
+                top : 340px;
+            }
+            .card-content-text {
+                width     : 100%;
+                height    : 100%;
+                font-size : 40px;
+                padding   : 10px;
+            }
+        }
+    }
+
+    .flipcard-title {
+        font-size : 44px;
+        color     : #fff;
+        margin    : 70px auto 10px;
+    }
 </style>

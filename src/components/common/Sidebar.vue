@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar">
         <!--  侧边内容  -->
-        <el-tabs class="imglib-tabs" v-model="activeName" @tab-click="tabClick">
+        <el-tabs class="imglib-tabs" :aria-index="activeName" v-model="activeName" @tab-click="tabClick">
             <el-tab-pane label="主题" name="first">
                 <div class="theme-box">
                     <!--  本地主题列表  -->
@@ -15,7 +15,7 @@
                             </li>
                         </ul>
                         <!--  伸缩主题列表按钮  -->
-                        <div class="theme-openBtn" @click="themeOpenState=!themeOpenState">
+                        <div class="theme-openBtn" @click="themeOpenState=!themeOpenState" v-if="theme.list.length>4">
                             <div class="icon-open"></div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
             selectTheme(id) {
                 let currThemeElement = {
                     backgroundThumb: './static/img/theme/theme' + id + '/bg-thumb.jpg',
-                    background: './static/img/theme/theme' + id + '/bg-preview.jpg',
+                    background: './static/img/theme/theme' + id + '/bg.jpg',
                     element: './static/img/theme/theme' + id + '/element.png'
                 }
                 this.$store.commit('changeTheme', id);

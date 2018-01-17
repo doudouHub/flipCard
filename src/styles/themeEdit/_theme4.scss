@@ -1,0 +1,30 @@
+@import "../mixins";
+@import "../config";
+
+.edit-panel.theme-4 {
+    .card-preList {
+        padding-top : 0;
+    }
+    .viewport-flip, .card-preList-box .flip {
+        width  : 149px;
+        height : 184px;
+    }
+    .viewport-flip {
+        margin-left : -74px;
+    }
+    .card-content {
+        margin-top : -9px;
+    }
+    &.editMode {
+        .viewport-flip {
+            .list:last-child .card-content {
+                left : -12px;
+            }
+        }
+    }
+     .flipcard-title {
+        input {
+            margin-bottom : 0;
+        }
+    }
+}

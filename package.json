@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "element-ui": "^2.0.0",
-    "html2canvas": "https://github.com/niklasvh/html2canvas.git",
+    "html2canvas": "^1.0.0-alpha.9",
     "uuid": "^3.1.0",
     "vue": "^2.3.2",
     "vue-native-websocket": "^2.0.5",

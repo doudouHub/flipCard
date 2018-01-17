@@ -3,15 +3,20 @@
 
 .sidebar {
     @include stretch(0, 0, 60px, false);
-    width            : 200px;
-    border-left      : 1px solid #ddd;
-    background-color : #f7f8fa;
+    width              : 200px;
+    border-left        : 1px solid #ddd;
+    background-color   : #f7f8fa;
     -webkit-transition : transform .2s linear;
     transition         : transform .2s linear;
 }
 
 /* 图库切换头部 */
 .imglib-tabs {
+    &[aria-index="first"] {
+        .el-tabs__active-bar {
+            margin-left : 21px;
+        }
+    }
     .el-tabs__nav {
         width            : 100%;
         background-color : #fff;
@@ -31,7 +36,6 @@
     }
     .el-tabs__active-bar {
         width            : 60px !important;
-        margin-left      : 21px;
         background-color : $mainColor;
         &:before {
             content        : '';

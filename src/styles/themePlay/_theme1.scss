@@ -1,0 +1,20 @@
+@import "../mixins";
+@import "../config";
+
+.edit-panel.theme-1 {
+    .viewport-flip, .card-preList-box .flip {
+        width  : 332px;
+        height : 410px;
+    }
+    .viewport-flip {
+        margin   : {
+            left : -165px;
+        }
+    }
+    .card-content {
+        margin   : {
+            left : -141px;
+            top  : -115px;
+        }
+    }
+}

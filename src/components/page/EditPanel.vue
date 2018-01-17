@@ -237,7 +237,7 @@
 </script>
 
 <style lang="scss">
-    @import "../../styles/theme";
+    @import "../../styles/themeEdit";
     @import "../../styles/editPanel";
     @import "../../styles/flipcard";
 </style>

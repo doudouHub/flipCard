@@ -8,6 +8,9 @@
 
 .edit-panel {
     &.editMode {
+        .card-preList {
+            padding : 30px 64px;
+        }
         .card-preList-box {
             > .item {
                 &:before {
@@ -105,7 +108,6 @@
                     background-image : none !important;
                     left             : 100%;
                     .card-content {
-                        left : -12px;
                         &:before {
                             content : '反';
                         }
@@ -115,7 +117,7 @@
         }
     }
     .card-preList {
-        padding : 30px 64px;
+        padding : 30px 170px;
     }
 }
 
@@ -129,6 +131,7 @@
         position : relative;
         float    : left;
         width    : 20%;
+        height   : 184px;
         &:nth-child(even) {
             top : 150px;
         }
@@ -152,8 +155,6 @@
         animation-duration                : 225ms;
     }
     .flip {
-        width                       : 149px;
-        height                      : 184px;
         background   : {
             size     : 100%;
             repeat   : no-repeat;
@@ -189,8 +190,7 @@
         top              : 50%;
         width            : 126px;
         height           : 90px;
-        margin-top       : -46px;
-        background-color : #fff;
+        background-color : #fffbe5;
         border           : 4px solid #fff28a;
         border-radius    : 3px;
         font-size        : 16px;
@@ -225,10 +225,11 @@
     .card-text {
         height : 86px;
         textarea {
-            font-size  : 16px;
-            border     : none;
-            text-align : center;
-            max-height : 70px;
+            font-size        : 16px;
+            border           : none;
+            text-align       : center;
+            max-height       : 70px;
+            background-color : transparent;
         }
         .el-textarea.is-disabled .el-textarea__inner {
             background-color : #fff;
@@ -276,12 +277,10 @@
 }
 
 .viewport-flip {
-    width               : 149px;
-    height              : 184px;
     -webkit-perspective : 1000;
     perspective         : 1000;
-    margin              : 0 auto;
-    position            : relative;
+    @include stretch(0, false, false, 50%);
+
 }
 
 .flip.out.reverse {

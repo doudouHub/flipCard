@@ -11,26 +11,28 @@ const state = {
         list: [
             {
                 id: 1,
-                name: '碧海蓝心'
+                name: '热气球'
             },
             {
                 id: 2,
-                name: '湖光山色'
+                name: '舞台电视'
             },
             {
                 id: 3,
-                name: '光辉岁月'
+                name: '天空星球'
             },
             {
                 id: 4,
-                name: '秋天收获'
-            },
-            {
-                id: 5,
-                name: '光辉岁月'
-            },
+                name: '森林蜜蜂'
+            }
         ],
         activeId: 1
+    },
+    // 当前主题元素
+    currThemeElement: {
+        backgroundThumb: './static/img/theme/theme1/bg-thumb.jpg',
+        background: './static/img/theme/theme1/bg.jpg',
+        element: './static/img/theme/theme1/element.png'
     },
     flipCards: {
         title: '',
@@ -40,12 +42,12 @@ const state = {
                 posi: {
                     img: '',
                     txt: '',
-                    class:'in'
+                    class: 'in'
                 },
                 oppo: {
                     img: '',
                     txt: '',
-                    class:'out'
+                    class: 'out'
                 }
             },
             {
@@ -53,14 +55,14 @@ const state = {
                 posi: {
                     img: '',
                     txt: '',
-                    class:'in'
+                    class: 'in'
                 },
                 oppo: {
                     img: '',
                     txt: '',
-                    class:'out'
+                    class: 'out'
                 }
-            },
+            }
         ]
     },
     // 预览模式
@@ -72,12 +74,6 @@ const state = {
         index: 0,
         state: 'posi',
         content: ''
-    },
-    // 当前主题元素
-    currThemeElement: {
-        backgroundThumb: './static/img/theme/theme1/bg-thumb.jpg',
-        background: './static/img/theme/theme1/bg-preview.jpg',
-        element: './static/img/theme/theme1/element.png'
     }
 }
 

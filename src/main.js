@@ -68,6 +68,8 @@ window.executePdu = (data) => {
         case 'sendjsdata':
             // 获得存储的信息
             if (data.data.flipCards) {
+                store.commit('changeTheme', data.data.themeId);
+                store.commit('updateCurImgElement', data.data.currThemeElement);
                 store.commit('updateFlipCards', {
                     type: 'update',
                     data: data.data.flipCards
@@ -88,6 +90,36 @@ Vue.prototype.$getQueryString = (name) => {
     } catch (e) {
         log_error(" getQueryString function error=" + e.message);
     }
+}
+
+// 获取浏览器内核参数
+Vue.prototype.$getBrowser = (n) => {
+    let ua = navigator.userAgent.toLowerCase(),
+        s,
+        name = '',
+        ver = 0;
+    //探测浏览器
+    (s = ua.match(/msie ([\d.]+)/)) ? _set("ie", _toFixedVersion(s[1])) :
+        (s = ua.match(/firefox\/([\d.]+)/)) ? _set("firefox", _toFixedVersion(s[1])) :
+            (s = ua.match(/chrome\/([\d.]+)/)) ? _set("chrome", _toFixedVersion(s[1])) :
+                (s = ua.match(/opera.([\d.]+)/)) ? _set("opera", _toFixedVersion(s[1])) :
+                    (s = ua.match(/version\/([\d.]+).*safari/)) ? _set("safari", _toFixedVersion(s[1])) : 0;
+
+    function _toFixedVersion(ver, floatLength) {
+        ver = ('' + ver).replace(/_/g, '.');
+        floatLength = floatLength || 1;
+        ver = String(ver).split('.');
+        ver = ver[0] + '.' + (ver[1] || '0');
+        ver = Number(ver).toFixed(floatLength);
+        return ver;
+    }
+
+    function _set(bname, bver) {
+        name = bname;
+        ver = bver;
+    }
+
+    return (n == 'n' ? name : (n == 'v' ? ver : name + ver));
 }
 
 // 判断元素父节点是否包含class
