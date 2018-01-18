@@ -33,7 +33,7 @@ html, body {
 .dis-table {
     display : table;
     &.ver-mid {
-        .dis-tab-cell{
+        .dis-tab-cell {
             vertical-align : middle;
         }
     }
@@ -41,4 +41,14 @@ html, body {
 
 .dis-tab-cell {
     display : table-cell;
+}
+
+/* 禁止鼠标选中文本 */
+.noselect {
+    -webkit-touch-callout : none; /* iOS Safari */
+    -webkit-user-select   : none; /* Chrome/Safari/Opera */
+    -khtml-user-select    : none; /* Konqueror */
+    -moz-user-select      : none; /* Firefox */
+    -ms-user-select       : none; /* Internet Explorer/Edge */
+    user-select           : none;
 }

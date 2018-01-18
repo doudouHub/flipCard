@@ -10,18 +10,30 @@
     transition         : transform .2s linear;
 }
 
-.imglibs-search {
-    margin-top    : 20px;
-    border-radius : 3px;
-    .el-icon-search {
-        cursor      : pointer;
-        line-height : 30px;
+.imglib-tabs {
+    .imglib-nodata {
+        display : block;
+        margin  : 0 auto;
     }
-    input {
-        border-color : #e2e2e2;
-        line-height  : 30px;
-        height       : 30px;
-        padding-left : 10px;
+    .imglibs-tip {
+        position         : relative;
+        background-color : #fff1ee;
+        color            : #888;
+        line-height      : 30px;
+        font-size        : 12px;
+        font-weight      : bold;
+        margin           : 1px -15px 0;
+        padding-left     : 10px;
+        border-bottom    : 1px solid #ddd;
+        .el-icon-close {
+            @include stretch(9px, 9px, false, false);
+            color       : #d24726;
+            font-weight : bold;
+            cursor      : pointer;
+        }
+        + .imglibs-search {
+            margin-top : 10px;
+        }
     }
 }
 

@@ -109,15 +109,15 @@
                 </li>
             </ul>
         </div>
-        <div class="card-addBtn" @click="addNewCard" v-cloak>
+        <div class="card-addBtn noselect" @click="addNewCard" v-cloak>
             <div class="icon-add"></div>
             添加题目（{{flipCards.list.length}}/5）
         </div>
         <div v-show="preview">
-            <div class="card-backBtn" @click="backToEdit">
+            <div class="card-backBtn noselect" @click="backToEdit">
                 退出预览
             </div>
-            <div class="card-againBtn" @click="doitAgain"></div>
+            <div class="card-againBtn noselect" @click="doitAgain"></div>
         </div>
 
         <!--  图片预览弹窗  -->

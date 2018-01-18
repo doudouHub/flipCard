@@ -1,8 +1,52 @@
 <template>
     <div class="sidebar">
         <!--  侧边内容  -->
-        <el-tabs class="imglib-tabs" :aria-index="activeName" v-model="activeName" @tab-click="tabClick">
-            <el-tab-pane label="主题" name="first">
+        <el-tabs class="imglib-tabs" :aria-index="activeName" v-model="activeName">
+            <el-tab-pane name="first" style="padding: 0 15px;">
+                <span slot="label"><i class="el-icon-picture"></i> 图片</span>
+                <div class="imglibs-tip" v-if="imglibsTip">
+                    * 图片可拖动到题目区域
+                    <div class="el-icon-close" @click="closeTip"></div>
+                </div>
+                <el-input class="imglibs-search" v-model="imgKeyword" placeholder="搜索关键词..."
+                          @keyup.enter.native="getNetImglib" clearable>
+                    <i slot="suffix" class="el-input__icon el-icon-search"></i>
+                </el-input>
+                <ul class="imglib-list list-none">
+                    <li class="imglib-item"
+                        v-for="(item,index) in imglib.list"
+                        :key="item.id"
+                        v-if="Math.ceil((index+1)/imglib.pageSize)===imglib.page"
+                        v-cloak>
+                        <div class="imglib-box"
+                             :class="item.id===imglib.activeId?'active':''"
+                             @click="viewImginBox(item.thumb,item.id)">
+                            <img :id="item.id" :src="item.thumb" alt="" draggable="true"
+                                 @dragstart="drag($event)">
+                        </div>
+                    </li>
+                </ul>
+                <!--  没有图片的展示  -->
+                <img class="imglib-nodata" src="/static/img/imglib-nodata.png" alt="" v-show="!imglib.list.length">
+                <!--  图库分页跳转  -->
+                <div class="img-pagination text-center" v-show="imglib.pageTotal">
+                    <i class="el-icon-caret-left page-btn" :class="imglib.page===1?'disabled':''"
+                       @click="handleCurrentChange('prev')"></i>
+                    <el-input
+                        :placeholder="inputFocus?'':placeholder"
+                        @focus="inputFocus=true"
+                        @blur="inputFocus=false"
+                        @keyup.enter.native="turnPage"
+                        :value="inputvalue"
+                    >
+                        <i slot="suffix" class="icon-enter" v-show="inputFocus"></i>
+                    </el-input>
+                    <i class="el-icon-caret-right page-btn" :class="imglib.page===imglib.pageTotal?'disabled':''"
+                       @click="handleCurrentChange('next')"></i>
+                </div>
+            </el-tab-pane>
+            <el-tab-pane name="second">
+                <span slot="label"><i class="el-icon-menu"></i> 主题</span>
                 <div class="theme-box">
                     <!--  本地主题列表  -->
                     <div class="theme-list-box">
@@ -51,39 +95,6 @@
                     </div>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="图片" name="second" style="padding: 0 15px;">
-                <el-input class="imglibs-search" v-model="imgKeyword" placeholder="输入关键词搜索"
-                          @keyup.enter.native="getNetImglib" clearable>
-                    <i slot="suffix" class="el-input__icon el-icon-search" @click="getNetImglib"></i>
-                </el-input>
-                <ul class="imglib-list list-none">
-                    <li class="imglib-item"
-                        v-for="(item,index) in imglib.list"
-                        :key="item.id"
-                        v-if="Math.ceil((index+1)/imglib.pageSize)===imglib.page"
-                        v-cloak>
-                        <div class="imglib-box"
-                             :class="item.id===imglib.activeId?'active':''"
-                             @click="viewImginBox(item.thumb,item.id)">
-                            <img :id="item.id" :src="item.thumb" alt="" draggable="true"
-                                 @dragstart="drag($event)">
-                        </div>
-                    </li>
-                </ul>
-                <div class="img-pagination text-center" v-show="imglib.pageTotal">
-                    <i class="el-icon-caret-left page-btn" :class="imglib.page===1?'disabled':''"
-                       @click="handleCurrentChange('prev')"></i>
-                    <el-input
-                        :placeholder="inputFocus?'':placeholder"
-                        @focus="inputFocus=true"
-                        @blur="inputFocus=false"
-                        @keyup.enter.native="turnPage"
-                        :value="inputvalue"
-                    ></el-input>
-                    <i class="el-icon-caret-right page-btn" :class="imglib.page===imglib.pageTotal?'disabled':''"
-                       @click="handleCurrentChange('next')"></i>
-                </div>
-            </el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -96,7 +107,7 @@
             return {
                 themeOpenState: false, // 主题展开状态
                 activeName: 'first',
-                imgKeyword: '指鹿为马',
+                imgKeyword: '',
                 // 网络图库
                 imglib: {
                     activeId: 0,
@@ -105,6 +116,7 @@
                     pageTotal: 0,
                     list: []
                 },
+                imglibsTip: true,
                 inputFocus: false
             }
         },
@@ -121,7 +133,7 @@
             }
         },
         mounted() {
-
+            this.imglibsTip = !sessionStorage.getItem('closetip');
         },
         methods: {
             // 切换主题
@@ -134,13 +146,6 @@
                 this.$store.commit('changeTheme', id);
                 // 更新当前主题元素
                 this.$store.commit('updateCurImgElement', currThemeElement);
-            },
-            // tab切换事件
-            tabClick() {
-                // 第一次切换图库
-                if (this.activeName === 'second' && !this.imglib.list.length) {
-                    this.getNetImglib();
-                }
             },
             // 获取在线图库
             getNetImglib() {
@@ -201,6 +206,11 @@
                 if (!_val) return;
                 _val = (_val < 1) ? 1 : (_val > this.imglib.pageTotal ? this.imglib.pageTotal : _val);
                 this.imglib.page = Number(_val);
+            },
+            // 关闭提示
+            closeTip() {
+                this.imglibsTip = false;
+                sessionStorage.setItem('closetip', true);
             }
         }
     }
@@ -228,29 +238,65 @@
             width : 50% !important;
             &.is-active, &:hover {
                 color : #d24726;
+                .el-icon-picture, .el-icon-menu {
+                    color : #d24726;
+                }
+            }
+            .el-icon-picture {
+                font-size : 17px;
+                position  : relative;
+                top       : 1px;
+                color     : #989898;
+            }
+            .el-icon-menu {
+                font-size : 16px;
+                position  : relative;
+                top       : 1px;
+                color     : #989898;
             }
         }
+
         .el-tabs__header {
             margin-bottom : 0;
         }
+
         .el-tabs__active-bar {
             width            : 60px !important;
             background-color : $mainColor;
-            &:before {
-                content        : '';
-                @include stretch(false, false, 100%, 50%);
-                display        : block;
-                width          : 0;
-                height         : 0;
-                vertical-align : middle;
-                border-bottom  : 4px dashed $mainColor;
-                border-right   : 4px solid transparent;
-                border-left    : 4px solid transparent;
-                margin-left    : -4px;
-            }
+            /* &:before {
+                 content        : '';
+                 @include stretch(false, false, 100%, 50%);
+                 display        : block;
+                 width          : 0;
+                 height         : 0;
+                 vertical-align : middle;
+                 border-bottom  : 4px dashed $mainColor;
+                 border-right   : 4px solid transparent;
+                 border-left    : 4px solid transparent;
+                 margin-left    : -4px;
+             }*/
         }
         .el-tabs__nav-wrap {
             border-bottom : 1px solid #ddd;
+        }
+    }
+
+    .imglibs-search {
+        margin-top    : 20px;
+        border-radius : 3px;
+        .el-icon-search {
+            line-height : 30px;
+        }
+        input {
+            border-color  : #e2e2e2;
+            line-height   : 30px;
+            height        : 30px;
+            padding-left  : 10px;
+            border-radius : 2px;
+            font-size     : 12px;
+            &:focus {
+                border-color : #d24726;
+            }
         }
     }
 
@@ -267,6 +313,24 @@
             font-size     : 12px;
             border-radius : 2px;
             text-align    : center;
+            padding-right : 15px;
+            &:focus {
+                border-color : #d24726;
+            }
+        }
+        .el-input__suffix {
+            .icon-enter {
+                position : relative;
+                top      : 2px;
+                display  : block;
+                width    : 15px;
+                height   : 15px;
+                background   : {
+                    image    : $flip-element;
+                    repeat   : no-repeat;
+                    position : -201px -179px;
+                }
+            }
         }
     }
 </style>

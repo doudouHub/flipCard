@@ -31,13 +31,17 @@
                 max-height : 100%;
             }
         }
-        .el-dialog__close {
-            color     : #fff;
-            font-size : 34px;
+        .el-dialog__headerbtn {
+            top              : 0;
+            right            : 0;
+            width            : 40px;
+            height           : 40px;
+            font-size        : 28px;
+            background-color : #1a5188;
+            .el-dialog__close {
+                color : #fff;
+            }
         }
-        //.el-dialog__header {
-        //    display : none;
-        //}
     }
 
     .card-addBtn {
@@ -67,6 +71,9 @@
                 position : -177px -181px;
             }
         }
+        &:active {
+            background-position : -219px -46px;
+        }
     }
     .card-backBtn {
         @include stretch(false, 20px, 15px, false);
@@ -81,6 +88,9 @@
         height      : 50px;
         line-height : 39px;
         cursor      : pointer;
+        &:active {
+            background-position : -220px -107px;
+        }
     }
     .card-againBtn {
         @include stretch(50%, 50px, false, false);
@@ -93,6 +103,9 @@
         width      : 56px;
         height     : 56px;
         cursor     : pointer;
+        &:active {
+            background-position : -357px -101px;
+        }
     }
     &.editMode {
         .card-addBtn {

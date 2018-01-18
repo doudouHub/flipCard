@@ -270,13 +270,13 @@
     .card-edit-item {
         float : left;
         width : 50%;
-        &:hover{
-            color: #d24726;
-            &.icon-text {
-                background-position : -3px -173px;
+        &:hover {
+            color : #d24726;
+            .icon-text {
+                background-position : -133px -3px;
             }
-            &.icon-image {
-                background-position : -32px -173px;
+            .icon-image {
+                background-position : -162px -3px;
             }
         }
     }
