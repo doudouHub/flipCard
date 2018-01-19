@@ -47,19 +47,19 @@
                     timestamp: (new Date()).valueOf()
                 };
                 // 向C++发行题目信息
-                // self.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
+                self.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
                 // 截图保存
-                html2canvas([document.body], {
-                    onrendered: function (canvas) {
-                        let imgurl = canvas.toDataURL("image/jpeg", 1.0);
-                        imgurl = imgurl.replace("data:image/jpeg;base64,", "");
-
-                        //发送消息，保存截图数据
-                        self.$call_cplus('micro.cotroler', 'sendimgurl', imgurl);
-                        // 向C++发行题目信息
-                        self.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
-                    }
-                });
+                // html2canvas([document.body], {
+                //     onrendered: function (canvas) {
+                //         let imgurl = canvas.toDataURL("image/jpeg", 1.0);
+                //         imgurl = imgurl.replace("data:image/jpeg;base64,", "");
+                //
+                //         //发送消息，保存截图数据
+                //         self.$call_cplus('micro.cotroler', 'sendimgurl', imgurl);
+                //         // 向C++发行题目信息
+                //         self.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
+                //     }
+                // });
             }
         }
     }

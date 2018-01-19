@@ -111,6 +111,11 @@
         .card-addBtn {
             display : block;
         }
+        &.theme-2 {
+            .flipcard-title input {
+                margin-bottom : 10px;
+            }
+        }
     }
     .panel-label {
         @include stretch(15px, false, false, 0);

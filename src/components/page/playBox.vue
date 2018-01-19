@@ -1,7 +1,7 @@
 <template>
     <div class="edit-panel" :class="('theme-'+theme.activeId)"
          :style="'background-image : url('+currThemeElement.background+');'">
-        <!--<div class="panel-label"></div>-->
+        <div class="panel-label"></div>
         <div class="flipcard-title text-center" v-text="flipCards.title"></div>
 
         <!--展示主体：卡片预览列表-->
@@ -116,6 +116,11 @@
                 font-size : 40px;
                 padding   : 10px;
             }
+        }
+        .panel-label {
+            width               : 198px;
+            height              : 58px;
+            background-position : 0 bottom;
         }
     }
 
