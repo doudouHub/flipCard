@@ -27,7 +27,7 @@
                     </li>
                 </ul>
                 <!--  没有图片的展示  -->
-                <img class="imglib-nodata" src="/static/img/imglib-nodata.png" alt="" v-show="!imglib.list.length">
+                <img class="imglib-nodata" src="../../../static/img/imglib-nodata.png" alt="" v-show="!imglib.list.length">
                 <!--  图库分页跳转  -->
                 <div class="img-pagination text-center" v-show="imglib.pageTotal">
                     <i class="el-icon-caret-left page-btn" :class="imglib.page===1?'disabled':''"

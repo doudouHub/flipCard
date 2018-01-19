@@ -240,6 +240,7 @@
             },
             // 退出编辑，返回预览
             backToEdit() {
+                const self = this;
                 this.$store.commit('updateFlipCards', {type: 'flipAll'});
                 this.$store.commit('viewPreview');
             },
