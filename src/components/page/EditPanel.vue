@@ -114,7 +114,7 @@
             添加题目（{{flipCards.list.length}}/5）
         </div>
         <div v-show="preview">
-            <div class="card-backBtn noselect" @click="backToEdit">
+            <div class="card-backBtn noselect" @click="backToEdit" v-show="!screenshot">
                 退出预览
             </div>
             <div class="card-againBtn noselect" @click="doitAgain"></div>
@@ -149,6 +149,7 @@
         computed: {
             ...mapGetters([
                 'preview',
+                'screenshot',
                 'theme',
                 'currThemeElement',
                 'flipCards',

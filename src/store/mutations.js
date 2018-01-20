@@ -4,8 +4,12 @@ export const mutations = {
         state.theme.activeId = data;
     },
     // 打开预览
-    viewPreview(state) {
+    viewPreview(state, data) {
         state.preview = !state.preview;
+        if (data === 'screenshot') {
+            // 开启截屏模式
+            state.screenshot = true;
+        }
     },
     // 切换上传模式
     changeUploadMode(state, data) {

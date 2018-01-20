@@ -3,7 +3,7 @@
         <div class="pull-right">
             <!-- 底部内容  -->
             <el-button size="small" @click="closeWindow" round>关闭</el-button>
-            <el-button size="small" round>查看范例</el-button>
+            <!--<el-button size="small" round>查看范例</el-button>-->
             <el-button size="small" @click="getToPreview" round>预览</el-button>
             <el-button size="small" type="danger" @click="insertPPT" round>插入PPT</el-button>
         </div>
@@ -38,28 +38,36 @@
             insertPPT() {
                 const self = this;
                 let data = {
-                    type: 'flipcard',
+                    wtype: 'all',
+                    qtype: 'h5',
+                    sortid:'ra.savework',
+                    type:'cls',
                     themeId: this.theme.activeId,
                     currThemeElement: this.currThemeElement,
                     workid: this.$uuid(),
                     workname: this.flipCards.title,
                     flipCards: this.flipCards,
-                    timestamp: (new Date()).valueOf()
+                    timestamp: (new Date()).valueOf(),
+                    datecreated: new Date() * 1,
+                    h5_url:window.location.href
                 };
-                // 向C++发行题目信息
-                self.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
-                // 截图保存
-                // html2canvas([document.body], {
-                //     onrendered: function (canvas) {
-                //         let imgurl = canvas.toDataURL("image/jpeg", 1.0);
-                //         imgurl = imgurl.replace("data:image/jpeg;base64,", "");
-                //
-                //         //发送消息，保存截图数据
-                //         self.$call_cplus('micro.cotroler', 'sendimgurl', imgurl);
-                //         // 向C++发行题目信息
-                //         self.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
-                //     }
-                // });
+                // // 向C++发行题目信息
+                // self.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
+                this.$store.commit('viewPreview','screenshot');
+                setTimeout(function () {
+                    // 截图保存
+                    html2canvas([document.body], {
+                        onrendered: function (canvas) {
+                            let imgurl = canvas.toDataURL("image/jpeg", 1.0);
+                            imgurl = imgurl.replace("data:image/jpeg;base64,", "");
+
+                            //发送消息，保存截图数据
+                            self.$call_cplus('micro.cotroler', 'sendimgurl', imgurl);
+                            // 向C++发行题目信息
+                            self.$call_cplus('micro.cotroler', 'setdata', JSON.stringify(data));
+                        }
+                    });
+                }, 200)
             }
         }
     }
