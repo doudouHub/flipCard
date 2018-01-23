@@ -27,7 +27,8 @@
                     </li>
                 </ul>
                 <!--  没有图片的展示  -->
-                <img class="imglib-nodata" src="../../../static/img/imglib-nodata.png" alt="" v-show="!imglib.list.length">
+                <img class="imglib-nodata" src="../../../static/img/imglib-nodata.png" alt=""
+                     v-show="!imglib.list.length">
                 <!--  图库分页跳转  -->
                 <div class="img-pagination text-center" v-show="imglib.pageTotal">
                     <i class="el-icon-caret-left page-btn" :class="imglib.page===1?'disabled':''"
@@ -54,7 +55,7 @@
                             <li class="theme-item" v-for="(item,index) in theme.list">
                                 <div class="thumb-box"
                                      :class="item.id===theme.activeId?'active':''"
-                                     @click="selectTheme(item.id)" :title="item.name"
+                                     @click="selectTheme(item.id)" :data-title="item.name"
                                      :style="'background-image : url(./static/img/theme/theme' + item.id + '/bg-thumb.jpg);'"></div>
                             </li>
                         </ul>

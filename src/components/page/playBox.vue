@@ -100,7 +100,26 @@
 <style lang="scss" scoped>
     .edit-panel {
         .card-preList {
-            padding : 30px 348px;
+            padding : 30px 300px;
+            @media (max-width : 1600px) {
+                padding : 30px 190px;
+            }
+            @media (max-width : 1440px) {
+                padding : 30px 160px;
+            }
+            @media (max-width : 1100px) {
+                padding : 30px 140px;
+            }
+            .item {
+                &:nth-child(even) {
+                    @media (max-width : 1600px) {
+                        top : 300px !important;
+                    }
+                    @media (max-width : 1440px) {
+                        top : 220px !important;
+                    }
+                }
+            }
         }
         .card-content {
             width  : 282px;
@@ -122,11 +141,39 @@
             height              : 58px;
             background-position : 0 bottom;
         }
+
     }
 
     .flipcard-title {
         font-size : 44px;
         color     : #fff;
         margin    : 70px auto 10px;
+        @media (max-width : 1440px) {
+            font-size : 32px;
+        }
+    }
+
+    .viewport-flip {
+        .card-content {
+            @media (max-width : 1600px) {
+                width  : 246px !important;
+                height : 175px !important;
+            }
+            @media (max-width : 1440px) {
+                width  : 180px !important;
+                height : 126px !important;
+            }
+            .card-content-text {
+                @media (max-width : 1600px) {
+                    font-size : 28px;
+                }
+                @media (max-width : 1440px) {
+                    font-size : 24px;
+                }
+                @media (max-width : 1100px) {
+                    font-size : 18px;
+                }
+            }
+        }
     }
 </style>

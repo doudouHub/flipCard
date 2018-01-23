@@ -131,18 +131,37 @@
         padding : 0 7px 15px;
     }
     .thumb-box {
-        width  : 100%;
-        height : 56px;
-        margin : 0 auto;
-        border : 2px solid transparent;
-        cursor : pointer;
+        position : relative;
+        width    : 100%;
+        height   : 56px;
+        margin   : 0 auto;
+        border   : 2px solid transparent;
+        cursor   : pointer;
         background   : {
             position : 50% 50%;
             size     : cover;
         }
+        overflow : hidden;
+        &:after {
+            @include stretch(false, 0, 0, 0);
+            content           : attr(data-title);
+            color             : #fff;
+            font-size         : 12px;
+            text-align        : center;
+            background-color  : rgba(0, 0, 0, .5);
+            line-height       : 20px;
+            -webkit-transform : translate3d(0, 100%, 0);
+            transform         : translate3d(0, 100%, 0);
+            transition        : transform .2s;
+            transition        : -webkit-transform .2s;
+        }
         &:hover, &.active {
             border-color     : #d24726;
             background-color : #ffdfdf;
+            &:after {
+                -webkit-transform : translate3d(0, 0, 0);
+                transform         : translate3d(0, 0, 0);
+            }
         }
     }
 }

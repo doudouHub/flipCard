@@ -108,5 +108,9 @@ export const mutations = {
         setTimeout(function () {
             state.imgView.src = data.src;
         }, 100)
+    },
+    // 回到编辑模式
+    editModeAgain(state) {
+        state.editAgain = true;
     }
 };

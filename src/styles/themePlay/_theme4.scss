@@ -5,6 +5,14 @@
     .viewport-flip, .card-preList-box .flip {
         width  : 332px;
         height : 410px;
+        @media (max-width : 1600px) {
+            width  : 260px;
+            height : 335px;
+        }
+        @media (max-width : 1440px) {
+            width  : 200px;
+            height : 254px;
+        }
     }
     .card-preList {
         padding-top : 0 !important;
@@ -13,11 +21,29 @@
         margin   : {
             left : -165px;
         }
+        @media (max-width : 1600px) {
+            margin-left : -130px;
+        }
+        @media (max-width : 1440px) {
+            margin-left : -100px;
+        }
     }
     .card-content {
         margin   : {
             left : -141px;
             top  : -23px;
+        }
+        @media (max-width : 1600px) {
+            margin   : {
+                left : -123px;
+                top  : -14px;
+            }
+        }
+        @media (max-width : 1440px) {
+            margin   : {
+                left : -90px;
+                top  : -16px;
+            }
         }
     }
     .flipcard-title {

@@ -5,7 +5,7 @@
             <el-button size="small" @click="closeWindow" round>关闭</el-button>
             <!--<el-button size="small" round>查看范例</el-button>-->
             <el-button size="small" @click="getToPreview" round>预览</el-button>
-            <el-button size="small" type="danger" @click="insertPPT" round>插入PPT</el-button>
+            <el-button size="small" type="danger" @click="insertPPT" round v-text="editAgain?'保存到PPT':'插入PPT'"></el-button>
         </div>
     </div>
 </template>
@@ -19,6 +19,7 @@
         },
         computed: {
             ...mapGetters([
+                'editAgain',
                 'preview',
                 'theme',
                 'flipCards',

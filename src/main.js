@@ -74,6 +74,7 @@ window.executePdu = (data) => {
                     type: 'update',
                     data: data.data.flipCards
                 });
+                store.commit('editModeAgain', data.data.themeId);
             }
             break;
     }

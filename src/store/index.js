@@ -19,7 +19,7 @@ const state = {
             },
             {
                 id: 3,
-                name: '天空星球'
+                name: '星球大战'
             },
             {
                 id: 4,
@@ -35,10 +35,49 @@ const state = {
         element: './static/img/theme/theme1/element.png'
     },
     flipCards: {
-        title: '',
+        title: '请翻动卡片',
         list: [
             {
                 id: 1,
+                posi: {
+                    img: '',
+                    txt: '请翻动卡片',
+                    class: 'in'
+                },
+                oppo: {
+                    img: '',
+                    txt: '请翻动卡片',
+                    class: 'out'
+                }
+            },
+            {
+                id: 3,
+                posi: {
+                    img: '',
+                    txt: '请翻动卡片',
+                    class: 'in'
+                },
+                oppo: {
+                    img: '',
+                    txt: '',
+                    class: 'out'
+                }
+            },
+            {
+                id: 4,
+                posi: {
+                    img: '',
+                    txt: '',
+                    class: 'in'
+                },
+                oppo: {
+                    img: '',
+                    txt: '',
+                    class: 'out'
+                }
+            },
+            {
+                id: 5,
                 posi: {
                     img: '',
                     txt: '',
@@ -67,6 +106,8 @@ const state = {
     },
     // 预览模式
     preview: false,
+    // 再次编辑模式
+    editAgain: false,
     // 截屏模式
     screenshot: false,
     // 当前上传模式 background 背景图片，element 主题元素，cardContent 卡片内容

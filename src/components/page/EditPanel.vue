@@ -109,7 +109,7 @@
                 </li>
             </ul>
         </div>
-        <div class="card-addBtn noselect" @click="addNewCard" v-cloak>
+        <div class="card-addBtn noselect" @click="addNewCard" v-cloak v-show="flipCards.list.length<5">
             <div class="icon-add"></div>
             添加题目（{{flipCards.list.length}}/5）
         </div>
