@@ -109,14 +109,42 @@
             }
             @media (max-width : 1100px) {
                 padding : 30px 140px;
+                @media (max-height : 600px) {
+                    padding : 0 140px;
+                }
             }
-            .item {
-                &:nth-child(even) {
+            .card-preList-box {
+                .item {
+                    @media (max-width : 1800px) {
+                        transform         : scale(0.8);
+                        -webkit-transform : scale(0.8);
+                        margin-top        : -38px;
+                    }
                     @media (max-width : 1600px) {
-                        top : 300px !important;
+                        transform         : scale(0.7);
+                        -webkit-transform : scale(0.7);
                     }
                     @media (max-width : 1440px) {
-                        top : 220px !important;
+                        transform         : scale(0.6);
+                        -webkit-transform : scale(0.6);
+                    }
+                    @media (max-width : 1100px) {
+                        @media (max-height : 600px) {
+                            transform         : scale(0.5);
+                            -webkit-transform : scale(0.5);
+                            margin-top        : -38px;
+                        }
+                    }
+                    &:nth-child(even) {
+                        @media (max-width : 1600px) {
+                            top : 300px;
+                        }
+                        @media (max-width : 1440px) {
+                            top : 220px;
+                            @media (max-height : 600px) {
+                                top : 200px;
+                            }
+                        }
                     }
                 }
             }
@@ -141,7 +169,6 @@
             height              : 58px;
             background-position : 0 bottom;
         }
-
     }
 
     .flipcard-title {
@@ -151,29 +178,8 @@
         @media (max-width : 1440px) {
             font-size : 32px;
         }
-    }
-
-    .viewport-flip {
-        .card-content {
-            @media (max-width : 1600px) {
-                width  : 246px !important;
-                height : 175px !important;
-            }
-            @media (max-width : 1440px) {
-                width  : 180px !important;
-                height : 126px !important;
-            }
-            .card-content-text {
-                @media (max-width : 1600px) {
-                    font-size : 28px;
-                }
-                @media (max-width : 1440px) {
-                    font-size : 24px;
-                }
-                @media (max-width : 1100px) {
-                    font-size : 18px;
-                }
-            }
+        @media (max-height : 600px) {
+            margin : 40px auto 0;
         }
     }
 </style>

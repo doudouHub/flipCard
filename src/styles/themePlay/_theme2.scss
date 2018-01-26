@@ -5,43 +5,17 @@
     .viewport-flip, .card-preList-box .flip {
         width  : 374px;
         height : 424px;
-        @media (max-width : 1600px) {
-            width  : 327px;
-            height : 335px;
-        }
-        @media (max-width : 1440px) {
-            width  : 236px;
-            height : 254px;
-        }
     }
 
     .viewport-flip {
         margin   : {
             left : -192px;
         }
-        @media (max-width : 1600px) {
-            margin-left : -163px;
-        }
-        @media (max-width : 1440px) {
-            margin-left : -118px;
-        }
     }
     .card-content {
         margin   : {
             left : -160px;
             top  : -82px;
-        }
-        @media (max-width : 1600px) {
-            margin   : {
-                left : -142px;
-                top  : -73px;
-            }
-        }
-        @media (max-width : 1440px) {
-            margin   : {
-                left : -102px;
-                top  : -52px;
-            }
         }
     }
 }

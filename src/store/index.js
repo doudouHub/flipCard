@@ -35,49 +35,10 @@ const state = {
         element: './static/img/theme/theme1/element.png'
     },
     flipCards: {
-        title: '请翻动卡片',
+        title: '',
         list: [
             {
                 id: 1,
-                posi: {
-                    img: '',
-                    txt: '请翻动卡片',
-                    class: 'in'
-                },
-                oppo: {
-                    img: '',
-                    txt: '请翻动卡片',
-                    class: 'out'
-                }
-            },
-            {
-                id: 3,
-                posi: {
-                    img: '',
-                    txt: '请翻动卡片',
-                    class: 'in'
-                },
-                oppo: {
-                    img: '',
-                    txt: '',
-                    class: 'out'
-                }
-            },
-            {
-                id: 4,
-                posi: {
-                    img: '',
-                    txt: '',
-                    class: 'in'
-                },
-                oppo: {
-                    img: '',
-                    txt: '',
-                    class: 'out'
-                }
-            },
-            {
-                id: 5,
                 posi: {
                     img: '',
                     txt: '',
