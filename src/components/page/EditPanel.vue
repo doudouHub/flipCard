@@ -36,7 +36,7 @@
                                             autosize
                                             resize="none"
                                             placeholder="请输入内容"
-                                            autofocus
+                                            ref="input_posi"
                                             :disabled="preview"
                                             v-model="item.posi.txt">
                                         </el-input>
@@ -79,8 +79,8 @@
                                             type="textarea"
                                             autosize
                                             resize="none"
+                                            ref="input_oppo"
                                             placeholder="请输入内容"
-                                            autofocus
                                             :disabled="preview"
                                             v-model="item.oppo.txt">
                                         </el-input>
@@ -224,6 +224,10 @@
                             type: 'putword',
                             index: index,
                             state: state
+                        });
+                        this.$nextTick(_ => {
+                            console.log(this.$refs);
+                            this.$refs['input_' + state][index].$refs.textarea.focus();
                         });
                         break;
                     case 'image':
