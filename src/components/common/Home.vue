@@ -36,7 +36,7 @@
             if (this.$getQueryString('isplay')) {
                 this.$router.push('/play');
             }
-            console.log(this.$getBrowser(), '浏览器内核');
+            // console.log(this.$getBrowser(), '浏览器内核');
         },
         methods: {}
     }

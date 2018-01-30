@@ -46,6 +46,7 @@
 
     .card-addBtn {
         @include stretch(false, false, 20px, 50%);
+        z-index     : 9999;
         background   : {
             image    : $flip-element;
             repeat   : no-repeat;

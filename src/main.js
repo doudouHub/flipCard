@@ -26,7 +26,7 @@ Vue.prototype.$uuid = uuid;
 
 // 调用C++方法
 Vue.prototype.$call_cplus = (cmd, tag, msg) => {
-    console.log("call_cplus, cmd: " + cmd + ", msg:" + msg);
+    // console.log("call_cplus, cmd: " + cmd + ", msg:" + msg);
     try {
         cef.message.sendMessage(cmd, [msg, tag]);
     } catch (e) {
@@ -35,7 +35,7 @@ Vue.prototype.$call_cplus = (cmd, tag, msg) => {
 
 // C++调用js的方法
 window.executePdu = (data) => {
-    console.log(data, '获得返回数据');
+    // console.log(data, '获得返回数据');
     data = JSON.parse(data);
     switch (data.sortid) {
         // 获得添加图片数据

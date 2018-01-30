@@ -1,0 +1,77 @@
+@import "../mixins";
+@import "../config";
+
+.edit-panel.theme-5 {
+    .viewport-flip, .card-preList-box .flip {
+        width  : 130px;
+        height : 132px;
+    }
+    .viewport-flip {
+        margin-left : -65px;
+    }
+    .card-content {
+        margin-top : -62px;
+    }
+    &.editMode {
+        padding : 0 64px;
+        .viewport-flip {
+            .list {
+                &:last-child .card-content {
+                    left : -2px;
+                }
+            }
+        }
+        .card-content {
+            border-color : #9b5013;
+            &:before {
+                color : #fff !important;
+            }
+            &:after {
+                background-color : #9b5013 !important;
+            }
+            &.hover {
+                border-color : #fff28a !important;
+                &:before {
+                    color : #333 !important;
+                }
+                &:after {
+                    background-color : #fff28a !important;
+                }
+            }
+        }
+    }
+    .card-preList {
+        &.editMode {
+            padding : 0;
+        }
+    }
+    .card-preList-box {
+        .item:after {
+            content      : '';
+            @include stretch(false, 50%, -16px, false);
+            margin-right : -77px;
+            z-index      : 1;
+            width        : 200px;
+            height       : 100px;
+            background   : {
+                image    : url("../../../static/img/theme/theme5/element-addition.png");
+                repeat   : no-repeat;
+                position : bottom center;
+                size     : 100%;
+            }
+        }
+        .item:nth-child(even) {
+            top : 180px;
+        }
+    }
+}
+
+.wrapper.preview .edit-panel.theme-5 {
+    .card-content {
+        border           : none;
+        background-color : transparent;
+        .card-text {
+            color : #fff;
+        }
+    }
+}

@@ -226,7 +226,7 @@
                             state: state
                         });
                         this.$nextTick(_ => {
-                            console.log(this.$refs);
+                            // console.log(this.$refs);
                             this.$refs['input_' + state][index].$refs.textarea.focus();
                         });
                         break;

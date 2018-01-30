@@ -226,7 +226,8 @@
             border           : none;
             text-align       : center;
             max-height       : 70px;
-            background-color : transparent;
+            background-color : transparent !important;
+            color            : inherit !important;
         }
         .el-textarea.is-disabled .el-textarea__inner {
             background-color : #fff;
@@ -286,7 +287,7 @@
     -webkit-perspective : 1000;
     perspective         : 1000;
     @include stretch(0, false, false, 50%);
-
+    z-index             : 10;
 }
 
 .flip.out.reverse {

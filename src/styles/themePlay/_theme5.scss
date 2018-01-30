@@ -1,0 +1,58 @@
+@import "../mixins";
+@import "../config";
+
+.edit-panel.theme-5 {
+    .viewport-flip, .card-preList-box .flip {
+        width  : 294px;
+        height : 320px;
+    }
+    .viewport-flip {
+        margin   : {
+            left : -147px;
+        }
+    }
+    .card-content {
+        margin   : {
+            left : -141px;
+            top  : -142px;
+        }
+        border           : none;
+        background-color : transparent;
+    }
+
+    .card-preList-box {
+        margin-top: 77px;
+        @media (max-width : 1600px) {
+            margin-top: 226px;
+        }
+        @media (max-width : 1440px) {
+            margin-top: 77px;
+        }
+        @media (max-width : 1100px) {
+            margin-top: 77px;
+        }
+        .item {
+            height : 320px;
+            &:after {
+                content : '';
+                @include stretch(100%, 50%, false, false);
+                margin    : {
+                    right : -133px;
+                    top   : -62px;
+                }
+                z-index : 1;
+                width   : 312px;
+                height  : 155px;
+                background   : {
+                    image    : url("../../../static/img/theme/theme5/element-addition.png");
+                    repeat   : no-repeat;
+                    position : bottom center;
+                    size     : 100%;
+                }
+            }
+            &:nth-child(even) {
+                top : 400px;
+            }
+        }
+    }
+}
